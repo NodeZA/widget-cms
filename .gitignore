@@ -1,0 +1,7 @@
+*.zip
+*.psd
+*~
+*.gitignore~
+*.secret
+node_modules/
+build/
