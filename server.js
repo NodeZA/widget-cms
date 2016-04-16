@@ -89,12 +89,13 @@ module.exports = function (config) {
   server.use(express.static(path.join(config.rootDir, 'public'), { maxAge: maxAge }));
 
   // handle image uploads
+  /*
   server.use(multer({
     dest: config.rootDir + '/public/temp/',
     rename: function (fieldname, filename) {
       return 'image_' + Date.now();
     }
-  }));
+  }));*/
 
   // logging
   server.use(logger('dev'));
