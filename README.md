@@ -4,7 +4,7 @@
 ### Getting started
 WigGet CMS is made of the following components - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`. Under the hood it uses Bookshelf.js to connect to your SQL database of choice. It also comes with a special kind of view modules `widgets`.
 
- 1. Install `widget-cms` inside your root directory: `npm Install widget-cms --save`.
+ 1. Install `widget-cms` inside your root directory: `npm install widget-cms --save`
  2. Create the required directories: `mkdir models collections controllers widgets plugins routes`
  3. Create your application entry file:
 
@@ -60,6 +60,16 @@ app.config({
     csrf: true,
     sessions: true
   }
+});
+
+app.registerMiddleware(function (req, res, next) {
+  // pass user object to templates
+  res.locals.user = {
+    name: 'Que',
+    email: 'que@widget-cms.com'
+  };
+  
+  next();
 });
 
 app.start();
