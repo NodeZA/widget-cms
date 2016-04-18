@@ -20,7 +20,7 @@ app.config({
 
   secret: 'your_app_secret_here',
 
-  log: true,  // write application logs to files
+  saveLogs: true,  // write application logs to files
 
   db: {              // required
     client: 'mysql', // options - mysql, pg, mariasql, sqlite3
@@ -56,9 +56,9 @@ app.config({
   pluginsDir: path.join(process.cwd(), 'views'), // optional - defaults ./plugins
 
   middleware: {
-    forms: true,
-    csrf: true,
-    sessions: true
+    enableForms: true,
+    enableCSRF: true,
+    enableSessions: true
   }
 });
 
@@ -68,7 +68,7 @@ app.registerMiddleware(function (req, res, next) {
     name: 'Que',
     email: 'que@widget-cms.com'
   };
-  
+
   next();
 });
 

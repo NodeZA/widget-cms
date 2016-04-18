@@ -38,7 +38,7 @@ module.exports = function (config, middleware) {
   hbsHelpers.setup(hbs);
 
 
-  if (config.session) {
+  if (config.enableSessions) {
     let cookieParser = require('cookie-parser');
     let session = require('express-session');
     let passport = require('passport');
@@ -65,7 +65,7 @@ module.exports = function (config, middleware) {
   }
 
 
-  if (config.forms) {
+  if (config.enableForms) {
     let bodyParser = require('body-parser');
     let expressValidator = require('express-validator');
 
@@ -76,7 +76,7 @@ module.exports = function (config, middleware) {
     // input validation
     server.use(expressValidator());
 
-    if (config.csrf) {
+    if (config.enableCSRF) {
       // CSRF protection.
       server.use(middleware.csrf({whitelist: config.csrfWhitelist || []}));
     }
@@ -99,7 +99,7 @@ module.exports = function (config, middleware) {
     });
   }
 
-  if (config.log) {
+  if (config.saveLogs) {
 
     let FileStreamRotator = require('file-stream-rotator')
 
