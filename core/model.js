@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-var unidecode  = require('unidecode');
-var when  = require('when');
-var sanitize   = require('validator').sanitize;
+const unidecode  = require('unidecode');
+const when  = require('when');
+const sanitize   = require('validator').sanitize;
 
 
 module.exports = function (Bookshelf) {

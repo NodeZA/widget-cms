@@ -1,7 +1,7 @@
 {
   "name": "widget-cms",
-  "version": "0.0.2",
-  "description": "Highly modular node.js cms",
+  "version": "0.1.0",
+  "description": "A highly modular Node.js content management system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,8 +28,10 @@
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
     "express-flash": "0.0.2",
+    "express-redis-cache": "^0.3.0",
     "express-session": "^1.13.0",
     "express-validator": "^2.20.3",
+    "file-stream-rotator": "0.0.6",
     "hbs": "^4.0.0",
     "knex": "^0.10.0",
     "lodash": "^4.11.1",

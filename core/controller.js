@@ -17,17 +17,7 @@ module.exports = function (app) {
   };
 
   _.extend(Controller.prototype, {
-    initialize: function () {},
-
-    getModel: function () {
-      let args = Array.prototype.slice.call(arguments);
-      return app.Bookshelf.model.apply(app.Bookshelf, args);
-    },
-
-    getCollection: function () {
-      let args = Array.prototype.slice.call(arguments);
-      return app.Bookshelf.collection.apply(app.Bookshelf, args);
-    }
+    initialize: function () {}
   });
 
   Controller.extend = utils.extend;

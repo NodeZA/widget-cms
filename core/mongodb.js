@@ -1,6 +1,6 @@
 "use strict";
 
-var running = false;
+let running = false;
 
 module.exports = function (mongodbUrl) {
 

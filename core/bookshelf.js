@@ -1,7 +1,7 @@
 "use strict";
 
 
-var Bookshelf = null;
+let Bookshelf = null;
 
 module.exports = function (config) {
 

@@ -1,9 +1,9 @@
 "use strict";
 
-var path = require('path');
-var fs = require('fs');
-var widgetLoader = require('widget-loader');
-var Bootstrap = {};
+const path = require('path');
+const fs = require('fs');
+const widgetLoader = require('widget-loader');
+let Bootstrap = {};
 
 
 Bootstrap.initBookshelf = function (config) {
@@ -30,7 +30,7 @@ Bootstrap.initServer = function (config) {
 Bootstrap.initWidgets = function (App) {
     console.log("✔ Initializing widgets...");
     return widgetLoader(App, {
-      widgetDirectory: path.join(App.config.rootDir, 'widgets')
+      widgetDirectory: App.config.widgetsDir || path.join(App.config.rootDir, 'widgets')
     });
 };
 
@@ -38,27 +38,16 @@ Bootstrap.initWidgets = function (App) {
 Bootstrap.loadModels = function (config) {
   console.log("✔ Loading widgets...");
 
-  let modelsDir = path.join(config.rootDir, 'models');
+  let modelsDir = config.modelsDir || path.join(config.rootDir, 'models');
 
   fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).forEach( (m) => {
     require(`${modelsDir}/${m}`);
   });
 };
-
-
-Bootstrap.loadRoutes = function (app) {
-  console.log("✔ Loading widgets...");
-  let modelsDir = path.join(config.rootDir, 'routes');
-
-  fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).forEach( (m) => {
-    require(`${modelsDir}/${m}`);
-  });
-};
-
 
 Bootstrap.loadCollections = function (config) {
   console.log("✔ Loading collections...");
-  let collectionsDir = path.join(config.rootDir, 'collections');
+  let collectionsDir = config.collectionsDir || path.join(config.rootDir, 'collections');
 
   fs.existsSync(collectionsDir) && fs.readdirSync(collectionsDir).forEach( (m) => {
     require(`${collectionsDir}/${m}`);
@@ -68,10 +57,10 @@ Bootstrap.loadCollections = function (config) {
 
 Bootstrap.loadControllers = function (config) {
   console.log("✔ Loading controllers...");
-  let modelsDir = path.join(config.rootDir, 'controllers');
+  let controllersDir = path.join(config.rootDir, 'controllers');
 
-  fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).forEach( (m) => {
-    require(`${modelsDir}/${m}`);
+  fs.existsSync(controllersDir) && fs.readdirSync(controllersDir).forEach( (m) => {
+    require(`${controllersDir}/${m}`);
   });
 };
 
@@ -79,11 +68,16 @@ Bootstrap.loadControllers = function (config) {
 Bootstrap.loadPlugins = function (config) {
   console.log("✔ Loading plugins...");
 
-  let pluginsDir = path.join(config.rootDir, 'cms', 'plugins');
+  let pluginsDir = config.pluginsDir || path.join(config.rootDir, 'plugins');
   let plugins = {};
 
   fs.existsSync(pluginsDir) && fs.readdirSync(pluginsDir).forEach( (m) => {
     let plugin = require(`${pluginsDir}/${m}`)(config);
+
+    if (plugins.hasOwnProperty(plugin.name)) {
+      return new Error('Plugin property name already defined.');
+    }
+
     plugins[plugin.name] = plugin;
   });
 
@@ -94,10 +88,10 @@ Bootstrap.loadPlugins = function (config) {
 Bootstrap.loadRoutes = function (config) {
   console.log("✔ Loading routes...");
 
-  let modelsDir = path.join(config.rootDir, 'routes');
+  let routesDir = routesDir || path.join(config.rootDir, 'routes');
 
-  fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).forEach( (m) => {
-    require(`${modelsDir}/${m}`);
+  fs.existsSync(routesDir) && fs.readdirSync(routesDir).forEach( (m) => {
+    require(`${routesDir}/${m}`);
   });
 };
 

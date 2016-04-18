@@ -9,7 +9,7 @@ const _ = require('lodash');
 const bootstrap = require('./bootstrap');
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
-var Controllers = {};
+let redisCache = require('express-redis-cache')();
 
 function App() {
   EventEmitter.call(this);
@@ -17,15 +17,31 @@ function App() {
 
 util.inherits(App, EventEmitter);
 
-_.extend(App.prototype, {
+_.assign(App.prototype, {
 
-  init: function (config) {
-
+  config: function (config) {
     // store configuration
-    this.config = config;
+    this._config = config;
+  },
+
+  registerMiddleware: function (middleware) {
+    this._middlewares = this._middlewares || [];
+
+    this._middlewares.push(middleware);
+  },
+
+
+  start: function () {
+    if (!this._config) {
+      return throw new Error('Application configuration not set.');
+    }
 
     // initialize Bookshelf
-    let Bookshelf = bootstrap.initBookshelf(config);
+    let Bookshelf = bootstrap.initBookshelf(this._config.db);
+
+    if (this._config.cache) {
+      this.cache = require('express-redis-cache')(config.redis);
+    }
 
     // initialize base model
     Bookshelf = require('./core/model')(Bookshelf);
@@ -44,7 +60,6 @@ _.extend(App.prototype, {
     bootstrap.loadModels(config);
     bootstrap.loadCollections(config);
 
-    this.Cache = require('./core/cache');
     this.Controller = require('./core/controller')(this);
 
     this.Plugins = bootstrap.loadPlugins(config);
@@ -55,7 +70,12 @@ _.extend(App.prototype, {
     // add widget middleware
     this.server.use(widgetMiddleware);
 
-    //this.Route = require('./core/route')(this);
+    if(this._middlewares && this._middlewares.length > 0) {
+      this._middlewares.forEach( (middleware) => {
+        this.server.use(middleware);
+      });
+    }
+
     bootstrap.loadRoutes(config);
 
     // start server
@@ -63,6 +83,7 @@ _.extend(App.prototype, {
       console.info("✔ Express server listening on port %d in %s mode", this.server.get('port'), this.server.get('env'));
     });
   },
+
 
   addCollection: function () {
     let args = Array.prototype.slice.call(arguments);
@@ -73,6 +94,18 @@ _.extend(App.prototype, {
   addModel: function () {
     let args = Array.prototype.slice.call(arguments);
     return this.Bookshelf.model.apply(this.Bookshelf, args);
+  },
+
+
+  getPlugin: function (name) {
+    if (this._plugins[name]) {
+      let plugin = this._plugins[name];
+
+      return plugin;
+    }
+    else {
+      return null;
+    }
   },
 
 
@@ -88,6 +121,8 @@ _.extend(App.prototype, {
 
 
   getController: function (name) {
+    this._controllers = this._controllers || Object.create(null);
+
     if (this._controllers[name]) {
       return new this._controllers[name]();
     }
@@ -97,23 +132,11 @@ _.extend(App.prototype, {
   },
 
 
-  getPlugin: function (name) {
-    if (this.Plugins[name]) {
-      let plugin = this.Plugins[name];
-
-      return plugin;
-    }
-    else {
-      return null;
-    }
-  },
-
-
   getControllers: function () {
-    return _.keys(Controllers).map(function (val) {
+    return _.keys(this._controllers).map((val) => {
       return {
         name: val,
-        methods: _.keys(Controllers[val])
+        methods: _.keys(this._controllers[val])
       };
     });
   },
@@ -138,22 +161,61 @@ _.extend(App.prototype, {
 
 
   getCache: function (name) {
-    return this.Cache[name];
+    this._cache = this._cache || {};
+    return this._cache[name];
   },
 
 
   setCache: function (name, val) {
-    this.Cache[name] = val;
+    this._cache = this._cache || {};
+
+    this._cache[name] = val;
   },
 
 
   cacheExists: function (name) {
-    return !!this.Cache[name];
+    this._cache = this._cache || {};
+    return !!this._cache[name];
   },
 
 
   get: function () {
-    let args = _.toArray(arguments);
+    let tem_args = _.toArray(arguments);
+    let args = [];
+    let middleware = null;
+
+
+    if(this._config.cache) {
+      if(tem_args.length === 3) {
+        middleware = tem_args[1];
+
+        if (_.isArray(middleware)) {
+          middleware.push(this.cache.route());
+        }
+        else if (_.isFunction(middleware)) {
+          let temp_middleware = middleware;
+          let middlewarearr = [];
+
+          middlewarearr.push(temp_middleware);
+          middlewarearr.push(this.cache.route());
+
+          middleware = middlewarearr;
+        }
+
+        args.push(tem_args[0]);
+        args.push(middleware);
+        args.push(tem_args[2]);
+      }
+      else {
+        args = tem_args;
+      }
+
+      if(tem_args.length === 2) {
+        args.push(tem_args[0]);
+        args.push(this.cache.route());
+        args.push(tem_args[1]);
+      }
+    }
 
     this.server.get.apply(this.server, args);
   },
@@ -167,7 +229,7 @@ _.extend(App.prototype, {
 
   getConfig: function (name) {
     var blacklist = ['mongodb','mysql','mailgun','github','twitter','google'];
-    var safeToSee = _.omit(this.config, blacklist);
+    var safeToSee = _.omit(this._config, blacklist);
 
     return safeToSee[name];
   },

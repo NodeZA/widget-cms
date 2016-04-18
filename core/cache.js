@@ -1,6 +1,6 @@
 "use strict";
 
-var Store = {};
+let Store = {};
 
 
 function cacheExists(key) {
