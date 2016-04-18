@@ -68,25 +68,25 @@ app.start();
 ### How it works
 Todo..
 
-### Creating Models
+### Models
 Todo..
 
-### Creating Collections
+### Collections
 Todo..
 
-### Creating Controllers
+### Controllers
 Todo..
 
-### Creating Routes
+### Routes
 Todo..
 
-### Creating Plugins
+### Plugins
 Todo..
 
-### Creating Middleware
+### Middleware
 Todo..
 
-### Creating Widgets
+### Widgets
 Todo..
 
 ### License
