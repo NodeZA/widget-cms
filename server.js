@@ -38,7 +38,7 @@ module.exports = function (config, middlewareMethods) {
   hbsHelpers.setup(hbs);
 
 
-  if (config.enableSessions) {
+  if (config.middleware.enableSessions) {
     let cookieParser = require('cookie-parser');
     let session = require('express-session');
     let passport = require('passport');
@@ -62,18 +62,21 @@ module.exports = function (config, middlewareMethods) {
   }
 
 
-  if (config.enableForms) {
+  if (config.middleware.enableForms) {
     let bodyParser = require('body-parser');
-    let expressValidator = require('express-validator');
 
     // for forms
-    server.use(bodyParser.urlencoded({ extended: false }));
     server.use(bodyParser.json());
+    server.use(bodyParser.urlencoded({ extended: true }));
 
     // input validation
-    server.use(expressValidator());
+    if (config.middleware.inputValidation) {
+      let expressValidator = require('express-validator');
+      
+      server.use(expressValidator());
+    }
 
-    if (config.enableCSRF) {
+    if (config.middleware.enableCSRF) {
       // CSRF protection.
       server.use(middleware.csrf({whitelist: config.csrfWhitelist || []}));
     }
