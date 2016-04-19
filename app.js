@@ -9,7 +9,6 @@ const _ = require('lodash');
 const bootstrap = require('./bootstrap');
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
-let redisCache = require('express-redis-cache')();
 
 function App() {
   EventEmitter.call(this);
@@ -22,25 +21,26 @@ _.assign(App.prototype, {
   config: function (config) {
     // store configuration
     this._config = config;
+    this._middleware = null;
   },
 
   registerMiddleware: function (middleware) {
-    this._middlewares = this._middlewares || [];
+    this._middleware = this._middleware || [];
 
-    this._middlewares.push(middleware);
+    this._middleware.push(middleware);
   },
 
 
   start: function () {
     if (!this._config) {
-      return throw new Error('Application configuration not set.');
+      throw new Error('Application configuration not set.');
     }
 
     // initialize Bookshelf
     let Bookshelf = bootstrap.initBookshelf(this._config.db);
 
     if (this._config.cache) {
-      this.cache = require('express-redis-cache')(config.redis);
+      this.cache = require('express-redis-cache')(this._config.redis);
     }
 
     // initialize base model
@@ -53,30 +53,24 @@ _.assign(App.prototype, {
     this.Model = Bookshelf.Model;
     this.Collection = Bookshelf.Collection;
 
-    this.initmongoDB = bootstrap.initmongoDB(config.mongodb.url);
+    this.server = bootstrap.initServer(this._config, this._middleware);
 
-    this.server = bootstrap.initServer(config);
-
-    bootstrap.loadModels(config);
-    bootstrap.loadCollections(config);
+    bootstrap.loadModels(this._config);
+    bootstrap.loadCollections(this._config);
 
     this.Controller = require('./core/controller')(this);
 
-    this.Plugins = bootstrap.loadPlugins(config);
-    bootstrap.loadControllers(config);
+    this.Plugins = bootstrap.loadPlugins(this._config);
+    bootstrap.loadControllers(this._config);
 
     let widgetMiddleware = bootstrap.initWidgets(this);
 
     // add widget middleware
     this.server.use(widgetMiddleware);
 
-    if(this._middlewares && this._middlewares.length > 0) {
-      this._middlewares.forEach( (middleware) => {
-        this.server.use(middleware);
-      });
-    }
 
-    bootstrap.loadRoutes(config);
+
+    bootstrap.loadRoutes(this._config);
 
     // start server
     this.server.listen(this.server.get('port'), this.server.get('ipAddress'), () => {
@@ -180,40 +174,26 @@ _.assign(App.prototype, {
 
 
   get: function () {
-    let tem_args = _.toArray(arguments);
-    let args = [];
-    let middleware = null;
+    let args = _.toArray(arguments);
 
-
-    if(this._config.cache) {
-      if(tem_args.length === 3) {
-        middleware = tem_args[1];
-
-        if (_.isArray(middleware)) {
-          middleware.push(this.cache.route());
-        }
-        else if (_.isFunction(middleware)) {
-          let temp_middleware = middleware;
-          let middlewarearr = [];
-
-          middlewarearr.push(temp_middleware);
-          middlewarearr.push(this.cache.route());
-
-          middleware = middlewarearr;
-        }
-
-        args.push(tem_args[0]);
-        args.push(middleware);
-        args.push(tem_args[2]);
-      }
-      else {
-        args = tem_args;
+    if (this._config.cache) {
+      if (args.length === 2) {
+        args.splice(1, 0, this.cache.route());
       }
 
-      if(tem_args.length === 2) {
-        args.push(tem_args[0]);
-        args.push(this.cache.route());
-        args.push(tem_args[1]);
+      if (args.length === 3) {
+        let secondArg = [];
+
+        if (_.isFunction(args[1])) {
+          secondArg.push(args[1]);
+          secondArg.push(this.cache.route());
+        }
+        else if (_.isArray(args[1])) {
+          secondArg = args[1];
+          secondArg.push(this.cache.route());
+        }
+
+        args.splice(1, 1, secondArg);
       }
     }
 

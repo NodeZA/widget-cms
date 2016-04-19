@@ -33,15 +33,13 @@ app.config({
     }
   },
 
-  mongodb: {  // required - mongodb url string
-    url: 'mongodb://localhost:27017/widget_cms'
-  },
+  redis: {}, // optional - assumes {host: localhost, port: 6379}
 
   cache: true, // optional - defaults to false
 
-  redis: {}, // optional - assumes localhost, port 6379
-
   rootDir: process.cwd(), // required
+
+  /**** optional
 
   viewsDir: path.join(process.cwd(), 'views'), // optional - defaults to ./views
 
@@ -54,6 +52,8 @@ app.config({
   widgetsDir: path.join(process.cwd(), 'views'), // optional - defaults to ./widgets
 
   pluginsDir: path.join(process.cwd(), 'views'), // optional - defaults ./plugins
+
+  *****/
 
   middleware: {
     enableForms: true,

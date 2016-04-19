@@ -13,24 +13,17 @@ Bootstrap.initBookshelf = function (config) {
 };
 
 
-Bootstrap.initmongoDB = function (url) {
-  console.log("✔ Initializing MongoDB...");
-
-  return require('./core/mongodb')(url);
-};
-
-
-Bootstrap.initServer = function (config) {
+Bootstrap.initServer = function (config, middleware) {
     console.log("✔ Initializing server...");
 
-    return require('./server')(config);
+    return require('./server')(config, middleware || []);
 };
 
 
 Bootstrap.initWidgets = function (App) {
     console.log("✔ Initializing widgets...");
     return widgetLoader(App, {
-      widgetDirectory: App.config.widgetsDir || path.join(App.config.rootDir, 'widgets')
+      widgetDirectory: App._config.widgetsDir || path.join(App._config.rootDir, 'widgets')
     });
 };
 
@@ -88,7 +81,7 @@ Bootstrap.loadPlugins = function (config) {
 Bootstrap.loadRoutes = function (config) {
   console.log("✔ Loading routes...");
 
-  let routesDir = routesDir || path.join(config.rootDir, 'routes');
+  let routesDir = config.routesDir || path.join(config.rootDir, 'routes');
 
   fs.existsSync(routesDir) && fs.readdirSync(routesDir).forEach( (m) => {
     require(`${routesDir}/${m}`);

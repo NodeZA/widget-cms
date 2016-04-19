@@ -9,10 +9,7 @@ module.exports = function (config) {
   	return Bookshelf;
   }
 
-  let knex = require('knex')({
-    client: 'mysql',
-    connection: config.mysql
-  });
+  let knex = require('knex')(config);
 
   Bookshelf = require('bookshelf')(knex);
 

@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function (config, middleware) {
+module.exports = function (config, middlewareMethods) {
 
   let express = require('express');
   let morgan = require('morgan');
@@ -42,7 +42,7 @@ module.exports = function (config, middleware) {
     let cookieParser = require('cookie-parser');
     let session = require('express-session');
     let passport = require('passport');
-    let MongoStore = require('connect-mongo')({session: session});
+    var RedisStore = require('connect-redis')(session);
 
     // parse cookies
     server.use(cookieParser());
@@ -50,10 +50,7 @@ module.exports = function (config, middleware) {
     // session management
     server.use(session({
       secret: config.secret,
-      store: new MongoStore({
-        url: config.mongodb.url,
-        autoReconnect: true
-      }),
+      store: new RedisStore(config.redis),
       proxy: true,
       resave: true,
       saveUninitialized: true
@@ -90,7 +87,6 @@ module.exports = function (config, middleware) {
     maxAge: config.maxAge || ((1000 * 60 * 60) * 24)
   }));
 
-  server.use(middleware.returnTo());
 
 
   if (middlewareMethods) {

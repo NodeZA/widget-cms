@@ -1,6 +1,6 @@
 {
   "name": "widget-cms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A highly modular Node.js content management system",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "bookshelf": "^0.9.4",
-    "connect-mongo": "^1.1.0",
+    "connect-redis": "^3.0.2",
     "cookie-parser": "^1.4.1",
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
@@ -37,12 +37,10 @@
     "lodash": "^4.11.1",
     "lusca": "^1.3.0",
     "moment": "^2.12.0",
-    "mongoose": "^4.4.12",
     "morgan": "^1.7.0",
-    "multer": "^1.1.0",
     "mysql": "^2.10.2",
     "passport": "^0.3.2",
-    "twitter": "^1.2.5",
+    "unidecode": "^0.1.8",
     "when": "^3.7.7",
     "widget-loader": "^0.2.0"
   }
