@@ -21,9 +21,15 @@ Bootstrap.initServer = function (config, middleware) {
 
 
 Bootstrap.initWidgets = function (App) {
+    let widgetsDir = App._config.widgetsDir || path.join(App._config.rootDir, 'widgets');
+
+    if (!(fs.existsSync(widgetsDir) && fs.readdirSync(modelsDir).length)) {
+      return null;
+    }
+
     console.log("✔ Initializing widgets...");
     return widgetLoader(App, {
-      widgetDirectory: App._config.widgetsDir || path.join(App._config.rootDir, 'widgets')
+      widgetDirectory: widgetsDir
     });
 };
 

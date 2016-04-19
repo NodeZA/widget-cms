@@ -67,9 +67,9 @@ _.assign(App.prototype, {
     let widgetMiddleware = bootstrap.initWidgets(this);
 
     // add widget middleware
-    this.server.use(widgetMiddleware);
-
-
+    if (widgetMiddleware) {
+      this.server.use(widgetMiddleware);
+    }
 
     bootstrap.loadRoutes(this._config);
 
