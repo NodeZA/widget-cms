@@ -4,7 +4,6 @@ module.exports = function (config, middlewareMethods) {
 
   let express = require('express');
   let morgan = require('morgan');
-  let flash = require('express-flash');
   let errorHandler = require('errorhandler');
   let hbs = require('hbs');
   let path = require('path');
@@ -39,6 +38,7 @@ module.exports = function (config, middlewareMethods) {
 
 
   if (config.middleware.enableSessions) {
+    let flash = require('express-flash');
     let cookieParser = require('cookie-parser');
     let session = require('express-session');
     let passport = require('passport');
@@ -59,6 +59,7 @@ module.exports = function (config, middlewareMethods) {
     // login management
     server.use(passport.initialize());
     server.use(passport.session());
+    server.use(flash());
   }
 
 
@@ -81,9 +82,6 @@ module.exports = function (config, middlewareMethods) {
       server.use(middleware.csrf({whitelist: config.csrfWhitelist || []}));
     }
   }
-
-  // message display
-  server.use(flash());
 
   // serve static files
   server.use(express.static(path.join(config.rootDir, 'public'), {
