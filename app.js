@@ -61,7 +61,7 @@ _.assign(App.prototype, {
 
     this.Controller = require('./core/controller')(this);
 
-    this.Plugins = bootstrap.loadPlugins(this._config);
+    this._plugins = bootstrap.loadPlugins(this._config);
     bootstrap.loadControllers(this._config);
 
     let widgetMiddleware = bootstrap.initWidgets(this);
