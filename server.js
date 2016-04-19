@@ -72,7 +72,7 @@ module.exports = function (config, middlewareMethods) {
     // input validation
     if (config.middleware.inputValidation) {
       let expressValidator = require('express-validator');
-      
+
       server.use(expressValidator());
     }
 
@@ -119,7 +119,7 @@ module.exports = function (config, middlewareMethods) {
     server.use(morgan('combined', {stream: accessLogStream}));
   }
   else {
-    server.use(logger('dev'));
+    server.use(morgan('dev'));
   }
 
 
