@@ -24,6 +24,7 @@ _.assign(App.prototype, {
     this._middleware = null;
   },
 
+
   registerMiddleware: function (middleware) {
     this._middleware = this._middleware || [];
 
