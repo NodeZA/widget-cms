@@ -41,7 +41,7 @@ _.assign(App.prototype, {
     let Bookshelf = bootstrap.initBookshelf(this._config.db);
 
     if (this._config.cache) {
-      this.cache = require('express-redis-cache')(this._config.redis);
+      this.cache = require('express-redis-cache')(_.defaults(this._config.redis || {}, {expire: 60 * 60}));
     }
 
     // initialize base model
