@@ -96,14 +96,6 @@ module.exports = function (config, middlewareMethods) {
     });
   }
 
-  if (config.cache) {
-    // if cache is enable don't use it in development
-    server.use(function (req, res, next) {
-      res.use_express_redis_cache = server.get('env');
-      next();
-    });
-  }
-
   if (config.saveLogs) {
 
     let FileStreamRotator = require('file-stream-rotator')

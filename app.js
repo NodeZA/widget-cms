@@ -40,10 +40,6 @@ _.assign(App.prototype, {
     // initialize Bookshelf
     let Bookshelf = bootstrap.initBookshelf(this._config.db);
 
-    if (this._config.cache) {
-      this.cache = require('express-redis-cache')(_.defaults(this._config.redis || {}, {expire: 60 * 60}));
-    }
-
     // initialize base model
     Bookshelf = require('./core/model')(Bookshelf);
 
@@ -56,6 +52,9 @@ _.assign(App.prototype, {
 
     this.server = bootstrap.initServer(this._config, this._middleware);
 
+    if (this._config.cache && this.server.get('env') === 'production') {
+      this.cache = require('express-redis-cache')(_.defaults(this._config.redis || {}, {expire: 60 * 60}));
+    }
     bootstrap.loadModels(this._config);
     bootstrap.loadCollections(this._config);
 
@@ -155,29 +154,10 @@ _.assign(App.prototype, {
   },
 
 
-  getCache: function (name) {
-    this._cache = this._cache || {};
-    return this._cache[name];
-  },
-
-
-  setCache: function (name, val) {
-    this._cache = this._cache || {};
-
-    this._cache[name] = val;
-  },
-
-
-  cacheExists: function (name) {
-    this._cache = this._cache || {};
-    return !!this._cache[name];
-  },
-
-
   get: function () {
     let args = _.toArray(arguments);
 
-    if (this._config.cache) {
+    if (this._config.cache && this.server.get('env') === 'production') {
       if (args.length === 2) {
         args.splice(1, 0, this.cache.route());
       }
