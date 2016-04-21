@@ -141,7 +141,7 @@ _.assign(App.prototype, {
       throw new Error(`Collection<${name}> not found`);
     }
 
-    return new (this.Bookshelf._models[name])(options);
+    return this.Bookshelf._models[name];
   },
 
 
@@ -150,7 +150,7 @@ _.assign(App.prototype, {
       throw new Error(`Collection<${name}> not found`);
     }
 
-    return new (this.Bookshelf._collections[name])(options);
+    return this.Bookshelf._collections[name];
   },
 
 
