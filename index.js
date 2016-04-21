@@ -4,12 +4,12 @@
 /*
  *  Application point of entry
 **/
-var instance = null;
+let appInstance = null;
 
 module.exports = (function () {
-  if (!instance) {
-    instance = require('./app');
+  if (!appInstance) {
+    appInstance = require('./app');
   }
 
-  return instance;
+  return appInstance;
 })();

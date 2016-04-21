@@ -62,7 +62,6 @@ module.exports = function (config, middlewareMethods) {
     server.use(flash());
   }
 
-
   if (config.middleware.enableForms) {
     let bodyParser = require('body-parser');
 
@@ -88,8 +87,6 @@ module.exports = function (config, middlewareMethods) {
     maxAge: config.maxAge || ((1000 * 60 * 60) * 24)
   }));
 
-
-
   if (middlewareMethods) {
     middlewareMethods.forEach(function (middlewareMethod) {
       server.use(middlewareMethod);
@@ -99,14 +96,13 @@ module.exports = function (config, middlewareMethods) {
   if (config.saveLogs) {
 
     let FileStreamRotator = require('file-stream-rotator')
-
-    var logDirectory = path.join(config.rootDir, 'log');
+    let logDirectory = path.join(config.rootDir, 'log');
 
     // ensure log directory exists
     fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
     // create a rotating write stream
-    var accessLogStream = FileStreamRotator.getStream({
+    let accessLogStream = FileStreamRotator.getStream({
       date_format: 'YYYYMMDD',
       filename: path.join(logDirectory, 'access-%DATE%.log'),
       frequency: 'daily',

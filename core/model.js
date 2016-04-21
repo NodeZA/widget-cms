@@ -26,13 +26,6 @@ module.exports = function (Bookshelf) {
     },
 
 
-    viewed: function () {
-      let views = this.get('views');
-
-      return this.save({'views': views + 1}, {patch: true});
-    },
-
-
     getTableName: function () {
       return this.tableName;
     },
@@ -51,24 +44,9 @@ module.exports = function (Bookshelf) {
 
     saving: function (newObj, attr, options) {
       let table = this.getTableName();
-
-      // if only updating views field
-      if (this.hasChanged('views') && !this.isNew() || this.hasChanged('resetPasswordToken')) {
-        return false;
-      }
-
-      // if user has no access to content
-      //if (!self.isNew() && !self.hasPermission()) {
-        //throw new Error('Access restricted');
-      //}
-
-      // if updating and has updated_by feild, set it to current user
-      //if (!self.isNew() && Databases[table].updated_by) {
-        //self.set('updated_by', App.user.get('id'));
-      //}
-
+      
       // if is new or slug has changed and has slug field - generate new slug
-      if (this.hasChanged('slug') || !this.get('slug') && this.has('slug')) {
+      if (this.has('slug') && (this.hasChanged('slug') || !this.get('slug'))) {
         return this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
           .then( (slug) => {
             this.set({slug: slug});

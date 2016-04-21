@@ -28,6 +28,7 @@ Bootstrap.initWidgets = function (App) {
     }
 
     console.log("✔ Initializing widgets...");
+    
     return widgetLoader(App, {
       widgetDirectory: widgetsDir
     });
@@ -43,6 +44,7 @@ Bootstrap.loadModels = function (config) {
     require(`${modelsDir}/${m}`);
   });
 };
+
 
 Bootstrap.loadCollections = function (config) {
   console.log("✔ Loading collections...");

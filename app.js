@@ -80,14 +80,12 @@ _.assign(App.prototype, {
 
 
   addCollection: function () {
-    let args = Array.prototype.slice.call(arguments);
-    return this.Bookshelf.collection.apply(this.Bookshelf, args);
+    return this.Bookshelf.collection.apply(this.Bookshelf, _.toArray(arguments));
   },
 
 
   addModel: function () {
-    let args = Array.prototype.slice.call(arguments);
-    return this.Bookshelf.model.apply(this.Bookshelf, args);
+    return this.Bookshelf.model.apply(this.Bookshelf, _.toArray(arguments));
   },
 
 
@@ -103,10 +101,12 @@ _.assign(App.prototype, {
   },
 
 
-  controller: function (name, val) {
+  addController: function (name, val) {
     this._controllers = this._controllers || Object.create(null);
 
-    if (this._controllers[name]) throw new Error(name + ' is already defined in the registry');
+    if (this._controllers[name]) {
+      throw new Error(name + ' is already defined in the registry');
+    }
 
     this._controllers[name] = val;
 
@@ -183,22 +183,18 @@ _.assign(App.prototype, {
 
 
   post: function () {
-    let args = _.toArray(arguments);
-    this.server.post.apply(this.server, args);
+    this.server.post.apply(this.server, _.toArray(arguments));
   },
 
 
   getConfig: function (name) {
-    var blacklist = ['mongodb','mysql','mailgun','github','twitter','google'];
-    var safeToSee = _.omit(this._config, blacklist);
-
-    return safeToSee[name];
+    return this._config[name];
   },
 
 
   updateConfig: function (name, val) {
-    if (config[name]) {
-      config[name] = val;
+    if (this._config[name]) {
+      this._config[name] = val;
     }
   }
 });

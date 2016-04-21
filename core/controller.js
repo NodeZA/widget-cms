@@ -13,7 +13,7 @@ module.exports = function (app) {
   }
 
   function Controller() {
-    this.initialize.apply(this, arguments);
+    this.initialize.apply(this, _.toArray(arguments));
   };
 
   _.extend(Controller.prototype, {

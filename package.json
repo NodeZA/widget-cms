@@ -1,6 +1,6 @@
 {
   "name": "widget-cms",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "A highly modular Node.js content management system",
   "main": "index.js",
   "scripts": {
