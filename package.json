@@ -1,6 +1,6 @@
 {
   "name": "widget-cms",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A highly modular Node.js content management system",
   "main": "index.js",
   "scripts": {
@@ -40,6 +40,7 @@
     "morgan": "^1.7.0",
     "mysql": "^2.10.2",
     "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "unidecode": "^0.1.8",
     "when": "^3.7.7",
     "widget-loader": "^0.2.0"

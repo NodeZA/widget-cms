@@ -1,8 +1,11 @@
 "use strict";
 
-module.exports = function (config, middlewareMethods) {
+module.exports = function (App) {
 
+  let config = App._config;
+  let middlewareMethods = App._middleware;
   let express = require('express');
+  let _ = require('lodash');
   let morgan = require('morgan');
   let errorHandler = require('errorhandler');
   let hbs = require('hbs');
@@ -42,7 +45,9 @@ module.exports = function (config, middlewareMethods) {
     let cookieParser = require('cookie-parser');
     let session = require('express-session');
     let passport = require('passport');
-    var RedisStore = require('connect-redis')(session);
+    let auth = require('./lib/auth/local')(App);
+    let RedisStore = require('connect-redis')(session);
+
 
     // parse cookies
     server.use(cookieParser());
@@ -61,6 +66,22 @@ module.exports = function (config, middlewareMethods) {
     server.use(passport.session());
     server.use(flash());
   }
+
+  // application caching
+  if (config.cache && server.get('env') === 'production') {
+    let redisCache = require('express-redis-cache');
+    let redisConfig = _.defaults(config.redis || {}, {expire: 60 * 60})
+
+    server.set('cache', redisCache(redisConfig));
+  }
+
+  // ensure user is available in templates
+  server.use(function (req, res, next) {
+    if (req.user) {
+      res.locals.user = req.user.toJSON();
+    }
+    next();
+  });
 
   if (config.middleware.enableForms) {
     let bodyParser = require('body-parser');

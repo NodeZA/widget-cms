@@ -20,21 +20,23 @@ _.assign(App.prototype, {
 
   config: function (config) {
     // store configuration
+    if (this._config) {
+      throw new Error('Application configuration already set');
+    }
+
     this._config = config;
-    this._middleware = null;
+    this._middleware = [];
   },
 
 
   registerMiddleware: function (middleware) {
-    this._middleware = this._middleware || [];
-
     this._middleware.push(middleware);
   },
 
 
   start: function () {
     if (!this._config) {
-      throw new Error('Application configuration not set.');
+      throw new Error('Application configuration not set');
     }
 
     // initialize Bookshelf
@@ -50,15 +52,13 @@ _.assign(App.prototype, {
     this.Model = Bookshelf.Model;
     this.Collection = Bookshelf.Collection;
 
-    this.server = bootstrap.initServer(this._config, this._middleware);
 
-    if (this._config.cache && this.server.get('env') === 'production') {
-      this.cache = require('express-redis-cache')(_.defaults(this._config.redis || {}, {expire: 60 * 60}));
-    }
     bootstrap.loadModels(this._config);
     bootstrap.loadCollections(this._config);
 
     this.Controller = require('./core/controller')(this);
+
+    this.server = bootstrap.initServer(this);
 
     this._plugins = bootstrap.loadPlugins(this._config);
     bootstrap.loadControllers(this._config);

@@ -13,10 +13,10 @@ Bootstrap.initBookshelf = function (config) {
 };
 
 
-Bootstrap.initServer = function (config, middleware) {
+Bootstrap.initServer = function (App) {
     console.log("✔ Initializing server...");
 
-    return require('./server')(config, middleware || []);
+    return require('./server')(App);
 };
 
 
@@ -28,7 +28,7 @@ Bootstrap.initWidgets = function (App) {
     }
 
     console.log("✔ Initializing widgets...");
-    
+
     return widgetLoader(App, {
       widgetDirectory: widgetsDir
     });
