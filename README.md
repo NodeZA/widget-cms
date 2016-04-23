@@ -79,13 +79,25 @@ app.start();
 Todo..
 
 ### Models
-Todo..
+...
 
 ### Collections
 Todo..
 
 ### Controllers
-Todo..
+Creating a controller.
+
+```javascript
+var App = require('widget-cms');
+
+var TestController = App.Controller.extend({
+  show: function (req, res) {
+    res.end('Test');
+  }
+});
+
+module.exports = App.addController('Test', TestController);
+```
 
 ### Routes
 Todo..
