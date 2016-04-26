@@ -6,9 +6,14 @@
 */
 
 const _ = require('lodash');
+const path = require('path');
+const typeIs = require('type-is');
+const mimetypes = require('mime-types');
 const bootstrap = require('./bootstrap');
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
+const multer  = require('multer');
+
 
 function App() {
   EventEmitter.call(this);
@@ -72,6 +77,19 @@ _.assign(App.prototype, {
 
     bootstrap.loadRoutes(this._config);
 
+    // file uploads
+    let storage = multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, this._config.uploadsDir || path.join(this._config.rootDir, 'public', 'img'));
+      },
+      filename: function (req, file, cb) {
+        let filename = `image_${Date.now()}.${mimetypes.extension(file.mimetype)}`;
+        cb(null, filename );
+      }
+    });
+
+    this.uploader = multer({storage: storage}).any();
+
     // start server
     this.server.listen(this.server.get('port'), this.server.get('ipAddress'), () => {
       console.info("✔ Express server listening on port %d in %s mode", this.server.get('port'), this.server.get('env'));
@@ -81,6 +99,11 @@ _.assign(App.prototype, {
 
   addCollection: function () {
     return this.Bookshelf.collection.apply(this.Bookshelf, _.toArray(arguments));
+  },
+
+
+  passport: function () {
+    return this.server.get('passport');
   },
 
 
@@ -183,7 +206,44 @@ _.assign(App.prototype, {
 
 
   post: function () {
-    this.server.post.apply(this.server, _.toArray(arguments));
+    let args = _.toArray(arguments);
+
+    // this middleware ensures that forms with
+    // enctype multipart are handled correctly
+    let middleware = (req, res, next) => {
+      if (typeIs(req, ['multipart'])) {
+        this.uploader(req, req, function (err) {
+          if (err) {
+            return next(err);
+          }
+          next();
+        });
+      }
+      else {
+        next();
+      }
+    };
+
+    if (args.length === 2) {
+      args.splice(1, 0, middleware);
+    }
+
+    if (args.length === 3) {
+      let secondArg = [];
+
+      if (_.isFunction(args[1])) {
+        secondArg.push(args[1]);
+        secondArg.push(middleware);
+      }
+      else if (_.isArray(args[1])) {
+        secondArg = args[1];
+        secondArg.push(middleware);
+      }
+
+      args.splice(1, 1, secondArg);
+    }
+
+    this.server.post.apply(this.server, args);
   },
 
 
