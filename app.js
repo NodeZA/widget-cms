@@ -149,11 +149,16 @@ _.assign(App.prototype, {
   },
 
 
+  hasController: function (name, method) {
+    return !!this._controllers[name] && _.isFunction(this._controllers[name][method]);
+  },
+
+
   getControllers: function () {
     return _.keys(this._controllers).map((val) => {
       return {
         name: val,
-        methods: _.keys(this._controllers[val])
+        methods: _.keys(this._controllers[val].prototype)
       };
     });
   },
