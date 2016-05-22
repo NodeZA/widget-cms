@@ -22,7 +22,7 @@
   "homepage": "https://github.com/NodeZA/widget-cms#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
-    "bookshelf": "^0.9.4",
+    "bookshelf": "^0.9.5",
     "connect-redis": "^3.0.2",
     "cookie-parser": "^1.4.1",
     "errorhandler": "^1.4.3",
