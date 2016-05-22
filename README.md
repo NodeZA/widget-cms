@@ -1,8 +1,8 @@
 # WigGet-CMS
-> A highly modular Node.js content management system
+> A highly modular Node.js application framework
 
 ### Getting started
-`widget-cms` is the core module of a Node.js content management system. It is build around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`. Under the hood it uses an express server, Bookshelf.js to connect to your SQL database of choice, and other popular Node.js modules that are usually used to compliment the mentioned ones. It also comes with a special kind of view modules `widgets`.
+`widget-cms` is a framework for building Node.js applications. It is build around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`. Under the hood it uses an express server, Bookshelf.js to connect to your SQL database of choice, and Redis for caching and session management.
 
  1. Install `widget-cms` inside your root directory: `npm install widget-cms --save`
  2. Create the required directories: `mkdir models collections controllers widgets plugins routes`
@@ -79,37 +79,67 @@ app.start();
 Todo..
 
 ### Models
-...
+```javascript
+const App = require('widget-cms');
+
+const User = App.Model.extend({
+
+  tableName: 'users'
+
+});
+
+module.exports = App.addModel('User', User);
+```
 
 ### Collections
-Todo..
+```javascript
+const App = require('widget-cms');
+const User = App.getModel('User');
+
+const Users = App.Collection.extend({
+
+  model: User
+
+});
+
+module.exports = App.addCollection('Users', Users);
+```
 
 ### Controllers
 Creating a controller.
 
 ```javascript
-var App = require('widget-cms');
+const App = require('widget-cms');
 
-var TestController = App.Controller.extend({
-  show: function (req, res) {
-    res.end('Test');
+const UsersController = App.Controller.extend({
+  getUsers: function (req, res) {
+    let Users = App.getCollection('Users');
+
+    Users.forge()
+    .then(function (collection) {
+      res.json(collection.toJSON());
+    })
+    .catch(function (error) {
+      next(error);
+    });
   }
 });
 
-module.exports = App.addController('Test', TestController);
+module.exports = App.addController('Users', getUsers);
 ```
 
 ### Routes
-Todo..
+Example of a route.
 
-### Plugins
-Todo..
+```javascript
+const App = require('widget-cms');
+const UsersController = App.getController('Users');
 
-### Middleware
-Todo..
+App.get('/users', UsersController.getUsers);
+```
 
-### Widgets
-Todo..
+
+
 
 ### License
 

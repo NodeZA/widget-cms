@@ -1,7 +1,7 @@
 {
   "name": "widget-cms",
-  "version": "0.2.5",
-  "description": "A highly modular Node.js content management system",
+  "version": "0.2.6",
+  "description": "A highly modular Node.js application framework",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

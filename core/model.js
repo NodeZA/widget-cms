@@ -20,6 +20,10 @@ module.exports = function (Bookshelf) {
         return this.saving(model, attributes, options);
       });
 
+      this.on('creating', (model, attributes, options) => {
+        return this.creating(model, attributes, options);
+      });
+
       this.on('destroying', (model, attributes, options) => {
         this.destroying(model, attributes, options);
       });
@@ -42,24 +46,18 @@ module.exports = function (Bookshelf) {
     },
 
 
-    saving: function (newObj, attr, options) {
-      let table = this.getTableName();
-      
-      // if is new or slug has changed and has slug field - generate new slug
-      if (this.has('slug') && (this.hasChanged('slug') || !this.get('slug'))) {
-        return this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
-          .then( (slug) => {
-            this.set({slug: slug});
-          });
-      }
-    },
+    saving: function (newObj, attr, options) {},
 
+
+    creating: function creating(newObj, attr, options) {},
+
+
+    destroying: function creating(newObj, attr, options) {},
 
 
     sanitize: function (attr) {
       return sanitize(this.get(attr)).xss();
     },
-
 
 
     /**
