@@ -33,7 +33,7 @@
     "express-validator": "^2.20.4",
     "file-stream-rotator": "0.0.6",
     "hbs": "^4.0.0",
-    "knex": "^0.11.0",
+    "knex": "^0.11.4",
     "lodash": "^4.12.0",
     "lusca": "^1.4.0",
     "mime-types": "^2.1.11",
