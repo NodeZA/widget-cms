@@ -186,8 +186,11 @@ _.assign(App.prototype, {
     let args = _.toArray(arguments);
 
     if (this._config.cache && this.server.get('env') === 'production') {
+
+      let cache = this.server.get('cache');
+
       if (args.length === 2) {
-        args.splice(1, 0, this.cache.route());
+        args.splice(1, 0, cache.route());
       }
 
       if (args.length === 3) {
@@ -195,11 +198,11 @@ _.assign(App.prototype, {
 
         if (_.isFunction(args[1])) {
           secondArg.push(args[1]);
-          secondArg.push(this.cache.route());
+          secondArg.push(cache.route());
         }
         else if (_.isArray(args[1])) {
           secondArg = args[1];
-          secondArg.push(this.cache.route());
+          secondArg.push(cache.route());
         }
 
         args.splice(1, 1, secondArg);
