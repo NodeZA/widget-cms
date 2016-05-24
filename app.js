@@ -164,9 +164,16 @@ _.assign(App.prototype, {
   },
 
 
+  clearCache: function (name, callback) {
+    let cache = this.server.get('cache');
+
+    cache.del(name || '*', callback || function(){});
+  },
+
+
   getModel: function (name, options) {
     if (!this.Bookshelf._models[name]) {
-      throw new Error(`Collection<${name}> not found`);
+      throw new Error(`Model<${name}> not found`);
     }
 
     return this.Bookshelf._models[name];
@@ -185,7 +192,7 @@ _.assign(App.prototype, {
   get: function () {
     let args = _.toArray(arguments);
 
-    if (this._config.cache && this.server.get('env') === 'production') {
+    if (this._config.cache) {
 
       let cache = this.server.get('cache');
 

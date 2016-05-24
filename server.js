@@ -2,23 +2,23 @@
 
 module.exports = function (App) {
 
-  let config = App._config;
-  let middlewareMethods = App._middleware;
-  let express = require('express');
-  let _ = require('lodash');
-  let morgan = require('morgan');
-  let errorHandler = require('errorhandler');
-  let hbs = require('hbs');
-  let path = require('path');
-  let fs = require('fs');
-  let hbsHelpers = require('./lib/helpers');
-  let middleware = require('./lib/middleware');
+  const config = App._config;
+  const middlewareMethods = App._middleware;
+  const express = require('express');
+  const _ = require('lodash');
+  const morgan = require('morgan');
+  const errorHandler = require('errorhandler');
+  const hbs = require('hbs');
+  const path = require('path');
+  const fs = require('fs');
+  const hbsHelpers = require('./lib/helpers');
+  const middleware = require('./lib/middleware');
 
 
   /**
    * Create Express server.
    */
-  let server = express();
+  const server = express();
 
 
   // server port
@@ -70,7 +70,7 @@ module.exports = function (App) {
   }
 
   // application caching
-  if (config.cache && server.get('env') === 'production') {
+  if (config.cache) {
     let redisCache = require('express-redis-cache');
     let redisConfig = _.defaults(config.redis || {}, {expire: 60 * 60})
 
