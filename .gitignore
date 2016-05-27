@@ -6,3 +6,4 @@
 *.secret
 node_modules/
 build/
+.publishrc

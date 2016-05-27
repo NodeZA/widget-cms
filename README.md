@@ -139,6 +139,10 @@ App.get('/users', UsersController.getUsers);
 ```
 
 
+### Testing
+```
+npm test
+```
 
 
 ### License

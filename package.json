@@ -1,10 +1,11 @@
 {
   "name": "widget-cms",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "A highly modular Node.js application framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha test/app.js",
+    "prepublish": "test"
   },
   "repository": {
     "type": "git",
@@ -12,6 +13,8 @@
   },
   "keywords": [
     "cms",
+    "framework",
+    "bookshelf",
     "express"
   ],
   "author": "Qawelesizwe Mlilo",
@@ -36,6 +39,7 @@
     "knex": "^0.11.4",
     "lodash": "^4.13.0",
     "lusca": "^1.4.0",
+    "mariasql": "^0.2.6",
     "mime-types": "^2.1.11",
     "moment": "^2.12.0",
     "morgan": "^1.7.0",
@@ -43,9 +47,17 @@
     "mysql": "^2.10.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "pg": "^4.5.5",
+    "sqlite3": "^3.1.4",
     "type-is": "^1.6.13",
     "unidecode": "^0.1.8",
     "when": "^3.7.7",
     "widget-loader": "^0.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
+    "should": "^8.4.0",
+    "supertest": "^1.2.0"
   }
 }

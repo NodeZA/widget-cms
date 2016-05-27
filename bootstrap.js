@@ -36,9 +36,16 @@ Bootstrap.initWidgets = function (App) {
 
 
 Bootstrap.loadModels = function (config) {
-  console.log("✔ Loading widgets...");
+  console.log("✔ Loading models...");
 
   let modelsDir = config.modelsDir || path.join(config.rootDir, 'models');
+
+  if (!(fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).length)) {
+    return null;
+  }
+  else {
+    console.log(fs.readdirSync(modelsDir).length)
+  }
 
   fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).forEach( (m) => {
     require(`${modelsDir}/${m}`);
@@ -48,7 +55,12 @@ Bootstrap.loadModels = function (config) {
 
 Bootstrap.loadCollections = function (config) {
   console.log("✔ Loading collections...");
+
   let collectionsDir = config.collectionsDir || path.join(config.rootDir, 'collections');
+
+  if (!(fs.existsSync(collectionsDir) && fs.readdirSync(collectionsDir).length)) {
+    return null;
+  }
 
   fs.existsSync(collectionsDir) && fs.readdirSync(collectionsDir).forEach( (m) => {
     require(`${collectionsDir}/${m}`);
@@ -58,7 +70,12 @@ Bootstrap.loadCollections = function (config) {
 
 Bootstrap.loadControllers = function (config) {
   console.log("✔ Loading controllers...");
+
   let controllersDir = path.join(config.rootDir, 'controllers');
+
+  if (!(fs.existsSync(controllersDir) && fs.readdirSync(controllersDir).length)) {
+    return null;
+  }
 
   fs.existsSync(controllersDir) && fs.readdirSync(controllersDir).forEach( (m) => {
     require(`${controllersDir}/${m}`);
@@ -71,6 +88,10 @@ Bootstrap.loadPlugins = function (config) {
 
   let pluginsDir = config.pluginsDir || path.join(config.rootDir, 'plugins');
   let plugins = {};
+
+  if (!(fs.existsSync(pluginsDir) && fs.readdirSync(pluginsDir).length)) {
+    return null;
+  }
 
   fs.existsSync(pluginsDir) && fs.readdirSync(pluginsDir).forEach( (m) => {
     let plugin = require(`${pluginsDir}/${m}`)(config);
@@ -90,6 +111,10 @@ Bootstrap.loadRoutes = function (config) {
   console.log("✔ Loading routes...");
 
   let routesDir = config.routesDir || path.join(config.rootDir, 'routes');
+
+  if (!(fs.existsSync(routesDir) && fs.readdirSync(routesDir).length)) {
+    return null;
+  }
 
   fs.existsSync(routesDir) && fs.readdirSync(routesDir).forEach( (m) => {
     require(`${routesDir}/${m}`);

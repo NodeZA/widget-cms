@@ -31,6 +31,8 @@ _.assign(App.prototype, {
 
     this._config = config;
     this._middleware = [];
+
+    return this;
   },
 
 
@@ -39,7 +41,7 @@ _.assign(App.prototype, {
   },
 
 
-  start: function () {
+  start: function (done) {
     if (!this._config) {
       throw new Error('Application configuration not set');
     }
@@ -93,7 +95,13 @@ _.assign(App.prototype, {
     // start server
     this.server.listen(this.server.get('port'), this.server.get('ipAddress'), () => {
       console.info("✔ Express server listening on port %d in %s mode", this.server.get('port'), this.server.get('env'));
+
+      if(done) {
+        done();
+      }
     });
+
+    return this;
   },
 
 
