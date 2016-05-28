@@ -46,6 +46,9 @@ describe('Create server', function () {
 
        App.addCollection('Tests', testCollection);
 
+       // checkif pagination plugin is working
+       collection.should.have.property('fetchPage');
+       
        collection.should.be.an.instanceOf(testCollection).and.have.property('add');
     });
   });

@@ -38,6 +38,8 @@ _.assign(App.prototype, {
 
   registerMiddleware: function (middleware) {
     this._middleware.push(middleware);
+
+    return this;
   },
 
 

@@ -18,6 +18,7 @@ module.exports = function (config) {
    * in a previous commit #38d98bb4c33e91b636a3538bd546ebe7f5077328
   **/
   Bookshelf.plugin('registry');
+  Bookshelf.plugin('pagination');
 
   console.info("✔ Bookshelf initialized.");
 

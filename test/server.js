@@ -22,10 +22,10 @@ module.exports = function () {
     cache: false,
     log: false,
     middleware: {
-      enableForms: true,
+      enableForms: false,
       enableCSRF: false,
-      inputValidation: true,
-      enableSessions: true
+      inputValidation: false,
+      enableSessions: false
     }
   });
 

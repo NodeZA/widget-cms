@@ -43,9 +43,6 @@ Bootstrap.loadModels = function (config) {
   if (!(fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).length)) {
     return null;
   }
-  else {
-    console.log(fs.readdirSync(modelsDir).length)
-  }
 
   fs.existsSync(modelsDir) && fs.readdirSync(modelsDir).forEach( (m) => {
     require(`${modelsDir}/${m}`);
