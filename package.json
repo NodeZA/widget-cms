@@ -52,7 +52,7 @@
     "type-is": "^1.6.13",
     "unidecode": "^0.1.8",
     "when": "^3.7.7",
-    "widget-loader": "^0.2.0"
+    "widget-loader": "^0.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
