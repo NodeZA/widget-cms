@@ -33,7 +33,7 @@
     "express-flash": "0.0.2",
     "express-redis-cache": "^0.3.0",
     "express-session": "^1.13.0",
-    "express-validator": "^2.20.4",
+    "express-validator": "^2.20.5",
     "file-stream-rotator": "0.0.6",
     "hbs": "^4.0.0",
     "knex": "^0.11.5",
