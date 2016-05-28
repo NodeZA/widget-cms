@@ -37,7 +37,7 @@
     "file-stream-rotator": "0.0.6",
     "hbs": "^4.0.0",
     "knex": "^0.11.5",
-    "lodash": "^4.13.0",
+    "lodash": "^4.13.1",
     "lusca": "^1.4.0",
     "mariasql": "^0.2.6",
     "mime-types": "^2.1.11",
