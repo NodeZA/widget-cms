@@ -117,19 +117,28 @@ module.exports = function (App) {
   }
 
   if (config.saveLogs) {
-
-    let FileStreamRotator = require('file-stream-rotator')
-    let logDirectory = path.join(config.rootDir, 'log');
+    
+    const logDirectory = path.join(config.rootDir, 'log');
+    const winston = require('winston');
 
     // ensure log directory exists
     fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
-    // create a rotating write stream
-    let accessLogStream = FileStreamRotator.getStream({
-      date_format: 'YYYYMMDD',
-      filename: path.join(logDirectory, 'access-%DATE%.log'),
-      frequency: 'daily',
-      verbose: false
+    var logger = new (winston.Logger)({
+      transports: [
+        new (winston.transports.File)({
+          name: 'info-file',
+          filename: path.join(logDirectory, 'info.log'),
+          level: 'info'
+        }),
+        new (winston.transports.File)({
+          name: 'error-file',
+          filename: path.join(logDirectory, 'error.log'),
+          level: 'error',
+          handleExceptions: true,
+          humanReadableUnhandledException: true
+        })
+      ]
     });
 
     // setup the logger

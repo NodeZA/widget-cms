@@ -52,7 +52,9 @@
     "type-is": "^1.6.13",
     "unidecode": "^0.1.8",
     "when": "^3.7.7",
-    "widget-loader": "^0.3.0"
+    "widget-loader": "^0.3.0",
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
