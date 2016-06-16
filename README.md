@@ -134,7 +134,7 @@ All controllers should be located in the controllers directory. Controllers are 
 const App = require('widget-cms');
 
 const UsersController = App.Controller.extend({
-  getUsers: function (req, res) {
+  getUsers: function (req, res, next) {
     let Users = App.getCollection('Users');
 
     Users.forge()
