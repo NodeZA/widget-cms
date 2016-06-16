@@ -27,8 +27,6 @@ When a `Widget-CMS` application is initialised it runs the following steps:
  2. Create the required directories: `mkdir models collections controllers widgets plugins routes`
  3. Create your application entry file:
 
-** index.js **
-
 ```javascript
 "use strict";
 
