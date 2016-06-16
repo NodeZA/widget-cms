@@ -4,6 +4,7 @@ module.exports = function (App) {
 
   const config = App._config;
   const middlewareMethods = App._middleware;
+  const handlebarsHelpers = App._helpers;
   const express = require('express');
   const _ = require('lodash');
   const morgan = require('morgan');
@@ -38,6 +39,14 @@ module.exports = function (App) {
 
   // setup and register handlebars helpers
   hbsHelpers.setup(hbs);
+
+  if (handlebarsHelpers.length) {
+    handlebarsHelpers.forEach(function (helper) {
+      if (_.isFunction(helper)) {
+        helper(hbs);
+      }
+    })
+  }
 
 
   if (config.middleware.enableSessions) {

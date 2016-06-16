@@ -34,6 +34,7 @@ _.assign(App.prototype, {
 
     this._config = config;
     this._middleware = [];
+    this._helpers = [];
 
     return this;
   },
@@ -394,6 +395,23 @@ _.assign(App.prototype, {
     if (this._config[name]) {
       this._config[name] = val;
     }
+  },
+
+  /*
+   * Public: registers handlebars helpers
+   *
+   * @params - (Function) fn - helper function that accepts 1 argument, a handlebars object
+   *
+   * @returns - (Object) - returns widget-cms object
+  **/
+  registerHelper: function (fn) {
+    if (!_.isFunction(fn)) {
+      throw new Error('Invalid arguments');
+    }
+
+    this._helpers.push(fn);
+
+    return this;
   }
 });
 

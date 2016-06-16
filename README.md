@@ -3,7 +3,7 @@
 
 ### What is Widget-CMS?
 
-`Widget-CMS` is a framework for building Node.js applications that use SQL databases. Under the hood it uses Bookshelf.js to connect to the database and supports the following databases: Postgres, MySQL, MARIADB, and SQLite. `Widget-CMS` follows a MVC-like architecture and is built around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`.
+`Widget-CMS` is a framework for building Node.js applications that use SQL databases. Under the hood it uses Bookshelf.js to connect to the database and supports the following databases: Postgres, MySQL, MariaDB, and SQLite. `Widget-CMS` follows a MVC-like architecture and is built around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`.
 
 
 ### How it works
@@ -20,6 +20,13 @@ When a `Widget-CMS` application is initialised it runs the following steps:
  9. Loads all routes inside your routes directory
  10. Creates a `multer` instance that will be used for handling multipart forms
  11. Finally, the express server is initialised.
+
+
+### Software Requirements
+
+ - SQL database (MySQL, Postgres, MariaDB, or SQLite)
+ - Redis - session management and cache store
+ - Node.js 14.x or greater
 
 
 ### Getting started
