@@ -5,7 +5,6 @@
  */
 
 const unidecode  = require('unidecode');
-const when  = require('when');
 const sanitize   = require('validator').sanitize;
 
 
@@ -88,7 +87,7 @@ module.exports = function (Bookshelf) {
             let trimSpace;
 
             if (!found) {
-              return when.resolve(slugToFind);
+              return Promise.resolve(slugToFind);
             }
 
             slugTryCount += 1;

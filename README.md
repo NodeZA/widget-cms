@@ -1,12 +1,33 @@
 # WigGet-CMS
 > A highly modular Node.js application framework
 
-### Getting started
-`widget-cms` is a framework for building Node.js applications. It is build around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`. Under the hood it uses an express server, Bookshelf.js to connect to your SQL database of choice, and Redis for caching and session management.
+### What is Widget-CMS?
 
+`Widget-CMS` is a framework for building Node.js applications that use SQL databases. Under the hood it uses Bookshelf.js to connect to the database and supports the following databases: Postgres, MySQL, MARIADB, and SQLite. `Widget-CMS` follows a MVC-like architecture and is built around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`.
+
+
+### How it works
+When a `Widget-CMS` application is initialised it runs the following steps:
+
+ 1. Sets application configuration
+ 2. Creates a database connection through Bookshelf.js
+ 3. Loads all models created inside your models directory
+ 4. Loads all collections inside your collections directory
+ 5. Loads all plugins inside your plugins directory
+ 6. Loads all controllers inside your controllers directory
+ 7. Loads all widgets inside your widgets directory
+ 8. Sets up the express server and loads all middleware
+ 9. Loads all routes inside your routes directory
+ 10. Creates a `multer` instance that will be used for handling multipart forms
+ 11. Finally, the express server is initialised.
+
+
+### Getting started
  1. Install `widget-cms` inside your root directory: `npm install widget-cms --save`
  2. Create the required directories: `mkdir models collections controllers widgets plugins routes`
  3. Create your application entry file:
+
+** index.js **
 
 ```javascript
 "use strict";
@@ -75,10 +96,11 @@ app.registerMiddleware(function (req, res, next) {
 app.start();
 ```
 
-### How it works
-Todo..
+
 
 ### Models
+All models should be located in the models directory. Models are created by extending the widget-cms Model object.
+
 ```javascript
 const App = require('widget-cms');
 
@@ -92,6 +114,8 @@ module.exports = App.addModel('User', User);
 ```
 
 ### Collections
+All collections should be located in the collections directory. Collections are created by extending the widget-cms Collection object.
+
 ```javascript
 const App = require('widget-cms');
 const User = App.getModel('User');
@@ -106,7 +130,7 @@ module.exports = App.addCollection('Users', Users);
 ```
 
 ### Controllers
-Creating a controller.
+All controllers should be located in the controllers directory. Controllers are created by extending the widget-cms Controller object.
 
 ```javascript
 const App = require('widget-cms');
@@ -129,7 +153,7 @@ module.exports = App.addController('Users', getUsers);
 ```
 
 ### Routes
-Example of a route.
+All routes should be located in the routes directory. Routes can be created by calling the `get` or `post` methods directly from the widget-cms object.
 
 ```javascript
 const App = require('widget-cms');

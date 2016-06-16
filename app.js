@@ -1,9 +1,5 @@
 "use strict";
 
-/*
-   Notes:
-   Set user model from the onset
-*/
 
 const _ = require('lodash');
 const path = require('path');
@@ -23,6 +19,13 @@ util.inherits(App, EventEmitter);
 
 _.assign(App.prototype, {
 
+  /*
+   * Public: stores application configuration
+   *
+   * @param - (Object) config - object containing configuration keys and values
+   *
+   * @returns - (Object) - returns widget-cms application object
+  **/
   config: function (config) {
     // store configuration
     if (this._config) {
@@ -36,6 +39,13 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: registers express server middleware. registered at the bottom of the middleware stack
+   *
+   * @param - (Function) middleware - express server middleware function that accepts 3 params
+   *
+   * @returns - (Object) - returns widget-cms application object
+  **/
   registerMiddleware: function (middleware) {
     this._middleware.push(middleware);
 
@@ -43,6 +53,13 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: initializes the application and starts the server
+   *
+   * @param - (Function) done - optional callback function
+   *
+   * @returns - widget-cms application object
+  **/
   start: function (done) {
     if (!this._config) {
       throw new Error('Application configuration not set');
@@ -60,7 +77,6 @@ _.assign(App.prototype, {
     this.Bookshelf = Bookshelf;
     this.Model = Bookshelf.Model;
     this.Collection = Bookshelf.Collection;
-
 
     bootstrap.loadModels(this._config);
     bootstrap.loadCollections(this._config);
@@ -107,21 +123,45 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: add a collection to application
+   *
+   * @param - (Function) middleware - express server middleware function that accepts 3 params
+   *
+   * @returns - (Object) - returns created Bookshelf collection object
+  **/
   addCollection: function () {
     return this.Bookshelf.collection.apply(this.Bookshelf, _.toArray(arguments));
   },
 
 
+  /*
+   * Public: passport authantication
+   *
+   * @returns - (Object) - returns passport object
+  **/
   passport: function () {
     return this.server.get('passport');
   },
 
 
+  /*
+   * Public: adds a model to application
+   *
+   * @returns - (Object) - returns created Bookshelf model object
+  **/
   addModel: function () {
     return this.Bookshelf.model.apply(this.Bookshelf, _.toArray(arguments));
   },
 
 
+  /*
+   * Public: get a registered plugin object
+   *
+   * @param - (String) name - plugin name
+   *
+   * @returns - (Object) - plugin object or null if not found
+  **/
   getPlugin: function (name) {
     if (this._plugins[name]) {
       let plugin = this._plugins[name];
@@ -134,6 +174,14 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: adds a controller to application
+   *
+   * @param - (String) name - controller name
+   * @param - (Object) val - controller object
+   *
+   * @returns - (Object) - returns the created controller object
+  **/
   addController: function (name, val) {
     this._controllers = this._controllers || Object.create(null);
 
@@ -147,6 +195,14 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: gets a created controller
+   *
+   * @param - (String) name - controller name
+   * @param - (Object) val - controller object
+   *
+   * @returns - (Object) - returns stored controller object
+  **/
   getController: function (name) {
     this._controllers = this._controllers || Object.create(null);
 
@@ -159,11 +215,24 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: checks is a controller method exists
+   *
+   * @param - (String) name - controller name
+   * @param - (String) method - controller method
+   *
+   * @returns - (Boolean) - returns a boolean
+  **/
   hasController: function (name, method) {
     return !!this._controllers[name] && _.isFunction(this._controllers[name].prototype[method]);
   },
 
 
+  /*
+   * Public: gets a all stored controllers and their methods
+   *
+   * @returns - (Array)
+  **/
   getControllers: function () {
     return _.keys(this._controllers).map((val) => {
       return {
@@ -174,14 +243,31 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: clears application cache
+   *
+   * @param - (String) name - cached route name
+   * @param - (Function) callback - callback function
+   *
+   * @returns - (Void)
+  **/
   clearCache: function (name, callback) {
     let cache = this.server.get('cache');
 
-    cache.del(name || '*', callback || function(){});
+    if (callback && _.isFunction(callback)) {
+      cache.del(name || '*', callback);
+    }
   },
 
 
-  getModel: function (name, options) {
+  /*
+   * Public: gets a created model
+   *
+   * @param - (String) name - model name
+   *
+   * @returns - (Object) - returns requested Model
+  **/
+  getModel: function (name) {
     if (!this.Bookshelf._models[name]) {
       throw new Error(`Model<${name}> not found`);
     }
@@ -190,7 +276,14 @@ _.assign(App.prototype, {
   },
 
 
-  getCollection: function (name, options) {
+  /*
+   * Public: gets a created collection
+   *
+   * @param - (String) name - collection name
+   *
+   * @returns - (Object) - returns requested collection
+  **/
+  getCollection: function (name) {
     if (!this.Bookshelf._collections[name]) {
       throw new Error(`Collection<${name}> not found`);
     }
@@ -199,6 +292,11 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: creates application get routes. It is suger on top express get method.
+   *
+   * @returns - (Void)
+  **/
   get: function () {
     let args = _.toArray(arguments);
 
@@ -230,6 +328,11 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: creates application post routes. It is suger on top express post method.
+   *
+   * @returns - (Void)
+  **/
   post: function () {
     let args = _.toArray(arguments);
 
@@ -272,11 +375,21 @@ _.assign(App.prototype, {
   },
 
 
+  /*
+   * Public: gets application configuration
+   *
+   * @returns - (Object) - returns application configuration
+  **/
   getConfig: function (name) {
     return this._config[name];
   },
 
 
+  /*
+   * Public: updates application configuration
+   *
+   * @returns - (Object) - returns updated configuration
+  **/
   updateConfig: function (name, val) {
     if (this._config[name]) {
       this._config[name] = val;

@@ -48,7 +48,7 @@ describe('Create server', function () {
 
        // checkif pagination plugin is working
        collection.should.have.property('fetchPage');
-       
+
        collection.should.be.an.instanceOf(testCollection).and.have.property('add');
     });
   });
@@ -92,19 +92,31 @@ describe('Create server', function () {
     });
   });
 
-  describe('#get()', function() {
-    it('should return a previously created controller', function() {
-      let controller = App.getController('Test');
+  describe('#get()', function(done) {
+    it('should be created a get route', function() {
 
-      App.get('/', controller.homePage);
+      App.get('/', function (req, res) {
+        res.send('Home page');
+      });
 
       request(App.server)
         .get('/')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-        });
+        .expect('Home page', done);
+    });
+  });
+
+  describe('#post()', function(done) {
+    it('should be created a post route', function() {
+      let controller = App.getController('Test');
+
+      App.post('/user', function (req, res) {
+        res.send(req.body.name);
+      });
+
+      request(App.server)
+        .post('/user')
+        .send({ name: 'Que' })
+        .expect('Que', done);
     });
   });
 
