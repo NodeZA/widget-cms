@@ -1,6 +1,9 @@
 # WigGet-CMS
 > A highly modular Node.js application framework
 
+[![Build Status](https://travis-ci.org/NodeZA/widget-cms.svg?branch=master)](https://travis-ci.org/NodeZA/widget-cms) 
+![Depencies](https://david-dm.org/nodeza/widget-cms.svg)
+
 ### What is Widget-CMS?
 
 `Widget-CMS` is a framework for building Node.js applications that use SQL databases. Under the hood it uses Bookshelf.js to connect to the database and supports the following databases: Postgres, MySQL, MariaDB, and SQLite. `Widget-CMS` follows a MVC-like architecture and is built around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`.
