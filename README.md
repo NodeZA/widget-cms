@@ -191,7 +191,7 @@ The Widget-CMS API is intentionally kept  small, please send open an issue for a
 
  - **config** - sets application configuration
    - @param - {Object} config - object containing configuration keys and values
-   - @returns - {Object) - returns widget-cms application object
+   - @returns - {Object} - returns widget-cms application object
 
  - **registerMiddleware** - registers express server middleware. registered at the bottom of the middleware stack
    - @param - {Function} middleware - express server middleware function that accepts 3 params
@@ -262,7 +262,7 @@ The Widget-CMS API is intentionally kept  small, please send open an issue for a
 
 #### Objects
 
-Below is a list application objects that are extendable.
+Below is a list of application objects that are extendable.
 
  - **Model** - creates a model
  - **Collection** - creates a collection
