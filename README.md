@@ -1,13 +1,25 @@
 # WigGet-CMS
 > A highly modular Node.js application framework
 
-[![Build Status](https://travis-ci.org/NodeZA/widget-cms.svg?branch=master)](https://travis-ci.org/NodeZA/widget-cms) 
+[![Build Status](https://travis-ci.org/NodeZA/widget-cms.svg?branch=master)](https://travis-ci.org/NodeZA/widget-cms)
 ![Depencies](https://david-dm.org/nodeza/widget-cms.svg)
 
 ### What is Widget-CMS?
 
 `Widget-CMS` is a framework for building Node.js applications that use SQL databases. Under the hood it uses Bookshelf.js to connect to the database and supports the following databases: Postgres, MySQL, MariaDB, and SQLite. `Widget-CMS` follows a MVC-like architecture and is built around the following concepts - `Models`, `Collections`, `Controllers`, `Routes`, `Plugins`, and `Widgets`.
 
+
+Table of Contents
+-----------------
+
+- [How it works](#how-it-works)
+- [Software Requirements](#software-requirements)
+- [Getting started](#getting-started)
+- [Models](#models)
+- [Collections](#collections)
+- [Controllers](#controllers)
+- [API](#api)
+- [Testing](#testing)
 
 ### How it works
 When a `Widget-CMS` application is initialised it runs the following steps:
@@ -169,6 +181,93 @@ const UsersController = App.getController('Users');
 
 App.get('/users', UsersController.getUsers);
 ```
+
+
+### API
+
+The Widget-CMS API is kept intentionally small, please send open an issue for any bugs.
+
+#### Methods
+
+ - config - sets application configuration
+   - @param - (Object) config - object containing configuration keys and values
+   - @returns - (Object) - returns widget-cms application object
+
+ - registerMiddleware - registers express server middleware. registered at the bottom of the middleware stack
+   - @param - (Function) middleware - express server middleware function that accepts 3 params
+   - @returns - (Object) - widget-cms application object
+
+ - registerHelper - registers handlebars helpers
+   - @params - (Function) fn - helper function that accepts 1 argument - a handlebars object
+   - @returns - (Object) - returns widget-cms object
+
+ - start - initializes the application and starts the server
+   - @param - (Function) done - optional callback function
+   - @returns - widget-cms application object
+
+ - addCollection - add a collection to application
+   - @param - (Function) middleware - express server middleware function that accepts 3 params
+   - @returns - (Object) - created Bookshelf collection object
+
+ - addModel - adds a model to application
+   - @returns - (Object) - created Bookshelf model object
+
+ - addController - adds a controller to application
+   - @param - (String) name - controller name
+   - @param - (Object) val - controller object
+   - @returns - (Object) - the created controller object
+
+ - hasController - checks is a controller method exists
+   - (String) name - controller name
+   - (String) method - controller method
+   - @returns - (Boolean)
+
+ - getPlugin - get a registered plugin
+   - @param - (String) name - plugin name
+   - @returns - (Object) - plugin object or null if not found
+
+ - getController - gets a created controller
+   - @param - (String) name - controller name
+   - @param - (Object) val - controller object
+   - @returns - (Object) - stored controller object
+
+ - getControllers - gets a all stored controllers and their methods
+   - @returns - (Array)
+
+ - getModel - gets an application model
+   - @param - (String) name - model name
+   - @returns - (Object) - requested Model
+
+ - getCollection - gets an application collection
+   - @param - (String) name - collection name
+   - @returns - (Object) - returns requested collection
+
+ - getConfig - gets application configuration
+   - @param - (String) name - config name
+
+ - get - creates application get routes. It's syntactic sugar on top of express' get method
+   - @returns - (Void)
+
+ - post - creates application post routes. It's syntactic sugar on top express' post method
+   - @returns - (Void)
+
+ - clearCache - clears application cache
+   - @param - (String) name - cached route name
+   - @param - (Function) callback - callback function
+   - @returns - (Object) widget-cms application object
+
+ - passport - passport authantication
+   - @returns - (Object) - passport object
+
+
+#### Objects
+
+Below is a list application objects that are extendable.
+
+ - Model - creates a model
+ - Collection - creates a collection
+ - Controller - creates a controller
+
 
 
 ### Testing

@@ -258,6 +258,8 @@ _.assign(App.prototype, {
     if (callback && _.isFunction(callback)) {
       cache.del(name || '*', callback);
     }
+
+    return this
   },
 
 
@@ -294,7 +296,7 @@ _.assign(App.prototype, {
 
 
   /*
-   * Public: creates application get routes. It is suger on top express get method.
+   * Public: creates application get routes. It is syntactic suger on top express get method.
    *
    * @returns - (Void)
   **/
@@ -379,7 +381,7 @@ _.assign(App.prototype, {
   /*
    * Public: gets application configuration
    *
-   * @returns - (Object) - returns application configuration
+   * @param - (String) name - config name
   **/
   getConfig: function (name) {
     return this._config[name];
