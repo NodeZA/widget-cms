@@ -185,88 +185,88 @@ App.get('/users', UsersController.getUsers);
 
 ### API
 
-The Widget-CMS API is kept intentionally small, please send open an issue for any bugs.
+The Widget-CMS API is intentionally kept  small, please send open an issue for any bugs.
 
 #### Methods
 
- - config - sets application configuration
-   - @param - (Object) config - object containing configuration keys and values
-   - @returns - (Object) - returns widget-cms application object
+ - **config** - sets application configuration
+   - @param - {Object} config - object containing configuration keys and values
+   - @returns - {Object) - returns widget-cms application object
 
- - registerMiddleware - registers express server middleware. registered at the bottom of the middleware stack
-   - @param - (Function) middleware - express server middleware function that accepts 3 params
-   - @returns - (Object) - widget-cms application object
+ - **registerMiddleware** - registers express server middleware. registered at the bottom of the middleware stack
+   - @param - {Function} middleware - express server middleware function that accepts 3 params
+   - @returns - {Object} - widget-cms application object
 
- - registerHelper - registers handlebars helpers
-   - @params - (Function) fn - helper function that accepts 1 argument - a handlebars object
-   - @returns - (Object) - returns widget-cms object
+ - **registerHelper** - registers handlebars helpers
+   - @params - {Function} fn - helper function that accepts 1 argument - a handlebars object
+   - @returns - {Object} - returns widget-cms object
 
- - start - initializes the application and starts the server
-   - @param - (Function) done - optional callback function
+ - **start** - initializes the application and starts the server
+   - @param - {Function} done - optional callback function
    - @returns - widget-cms application object
 
- - addCollection - add a collection to application
-   - @param - (Function) middleware - express server middleware function that accepts 3 params
-   - @returns - (Object) - created Bookshelf collection object
+ - **addCollection** - add a collection to application
+   - @param - {Function} middleware - express server middleware function that accepts 3 params
+   - @returns - {Object} - created Bookshelf collection object
 
- - addModel - adds a model to application
-   - @returns - (Object) - created Bookshelf model object
+ - **addModel** - adds a model to application
+   - @returns - {Object} - created Bookshelf model object
 
- - addController - adds a controller to application
-   - @param - (String) name - controller name
-   - @param - (Object) val - controller object
-   - @returns - (Object) - the created controller object
+ - **addController** - adds a controller to application
+   - @param - {String} name - controller name
+   - @param - {Object} val - controller object
+   - @returns - {Object} - the created controller object
 
- - hasController - checks is a controller method exists
-   - (String) name - controller name
-   - (String) method - controller method
-   - @returns - (Boolean)
+ - **hasController** - checks is a controller method exists
+   - @param - {String} name - controller name
+   - @param - {String} method - controller method
+   - @returns - {Boolean}
 
- - getPlugin - get a registered plugin
-   - @param - (String) name - plugin name
-   - @returns - (Object) - plugin object or null if not found
+ - **getPlugin** - get a registered plugin
+   - @param - {String} name - plugin name
+   - @returns - {Object} - plugin object or null if not found
 
- - getController - gets a created controller
-   - @param - (String) name - controller name
-   - @param - (Object) val - controller object
-   - @returns - (Object) - stored controller object
+ - **getController** - gets a created controller
+   - @param - {String} name - controller name
+   - @param - {Object} val - controller object
+   - @returns - {Object} - stored controller object
 
- - getControllers - gets a all stored controllers and their methods
-   - @returns - (Array)
+ - **getControllers** - gets a all stored controllers and their methods
+   - @returns - {Array}
 
- - getModel - gets an application model
-   - @param - (String) name - model name
-   - @returns - (Object) - requested Model
+ - **getModel** - gets an application model
+   - @param - {String} name - model name
+   - @returns - {Object} - requested Model
 
- - getCollection - gets an application collection
-   - @param - (String) name - collection name
-   - @returns - (Object) - returns requested collection
+ - **getCollection** - gets an application collection
+   - @param - {String} name - collection name
+   - @returns - {Object} - returns requested collection
 
- - getConfig - gets application configuration
-   - @param - (String) name - config name
+ - **getConfig** - gets application configuration
+   - @param - {String} name - config name
 
- - get - creates application get routes. It's syntactic sugar on top of express' get method
-   - @returns - (Void)
+ - **get** - creates application get routes. It's syntactic sugar on top of express' get method
+   - @returns - {Void}
 
- - post - creates application post routes. It's syntactic sugar on top express' post method
-   - @returns - (Void)
+ - **post** - creates application post routes. It's syntactic sugar on top express' post method
+   - @returns - {Void}
 
- - clearCache - clears application cache
-   - @param - (String) name - cached route name
-   - @param - (Function) callback - callback function
-   - @returns - (Object) widget-cms application object
+ - **clearCache** - clears application cache
+   - @param - {String} name - cached route name
+   - @param - {Function} callback - callback function
+   - @returns - {Object} widget-cms application object
 
- - passport - passport authantication
-   - @returns - (Object) - passport object
+ - **passport** - passport authentication
+   - @returns - {Object} - passport object
 
 
 #### Objects
 
 Below is a list application objects that are extendable.
 
- - Model - creates a model
- - Collection - creates a collection
- - Controller - creates a controller
+ - **Model** - creates a model
+ - **Collection** - creates a collection
+ - **Controller** - creates a controller
 
 
 
