@@ -50,7 +50,7 @@
     "sqlite3": "^3.1.4",
     "type-is": "^1.6.13",
     "unidecode": "^0.1.8",
-    "widget-loader": "^0.3.1"
+    "widget-loader": "^0.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
