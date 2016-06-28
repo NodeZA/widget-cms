@@ -16,23 +16,33 @@ module.exports = function (Bookshelf) {
 
     initialize: function () {
       this.on('saving', (model, attributes, options) => {
-        return this.saving(model, attributes, options);
+        if (this.saving) {
+          this.saving(model, attributes, options);
+        }
       });
 
       this.on('creating', (model, attributes, options) => {
-        return this.creating(model, attributes, options);
+        if (this.creating) {
+          this.creating(model, attributes, options);
+        }
       });
 
       this.on('destroying', (model, attributes, options) => {
-        this.destroying(model, attributes, options);
+        if (this.destroying) {
+          this.destroying(model, attributes, options);
+        }
       });
 
       this.on('saved', (model, attributes, options) => {
-        this.saved(model, attributes, options);
+        if (this.saved) {
+          this.saved(model, attributes, options);
+        }
       });
 
       this.on('updated', (model, attributes, options) => {
-        this.updated(model, attributes, options);
+        if (this.updated) {
+          this.updated(model, attributes, options);
+        }
       });
     },
 
