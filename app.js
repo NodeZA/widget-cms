@@ -89,36 +89,39 @@ _.assign(App.prototype, {
     this._plugins = bootstrap.loadPlugins(this._config);
     bootstrap.loadControllers(this._config);
 
-    let widgetMiddleware = bootstrap.initWidgets(this);
+    if (!this._config.hasOwnProperty('serverless') || !this._config.serverless) {
+      let widgetMiddleware = bootstrap.initWidgets(this);
 
-    // add widget middleware
-    if (widgetMiddleware) {
-      this.server.use(widgetMiddleware);
+      // add widget middleware
+      if (widgetMiddleware) {
+        this.server.use(widgetMiddleware);
+      }
+
+      bootstrap.loadRoutes(this._config);
+
+      // file uploads
+      let storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+          cb(null, this._config.uploadsDir || path.join(this._config.rootDir, 'public', 'img'));
+        },
+        filename: function (req, file, cb) {
+          let filename = `image_${Date.now()}.${mimetypes.extension(file.mimetype)}`;
+          cb(null, filename );
+        }
+      });
+
+      this.uploader = multer({storage: storage}).any();
+
+      // start server
+      this.server.listen(this.server.get('port'), this.server.get('ipAddress'), () => {
+        console.info("✔ Express server listening on port %d in %s mode", this.server.get('port'), this.server.get('env'));
+
+        if(done) {
+          done();
+        }
+      });
     }
 
-    bootstrap.loadRoutes(this._config);
-
-    // file uploads
-    let storage = multer.diskStorage({
-      destination: (req, file, cb) => {
-        cb(null, this._config.uploadsDir || path.join(this._config.rootDir, 'public', 'img'));
-      },
-      filename: function (req, file, cb) {
-        let filename = `image_${Date.now()}.${mimetypes.extension(file.mimetype)}`;
-        cb(null, filename );
-      }
-    });
-
-    this.uploader = multer({storage: storage}).any();
-
-    // start server
-    this.server.listen(this.server.get('port'), this.server.get('ipAddress'), () => {
-      console.info("✔ Express server listening on port %d in %s mode", this.server.get('port'), this.server.get('env'));
-
-      if(done) {
-        done();
-      }
-    });
 
     return this;
   },
@@ -381,7 +384,8 @@ _.assign(App.prototype, {
   /*
    * Public: gets application configuration
    *
-   * @param - (String) name - config name
+   * @param - (String) name - controller name
+   * @returns - (Object) - returns application configuration
   **/
   getConfig: function (name) {
     return this._config[name];

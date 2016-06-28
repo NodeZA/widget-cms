@@ -26,6 +26,14 @@ module.exports = function (Bookshelf) {
       this.on('destroying', (model, attributes, options) => {
         this.destroying(model, attributes, options);
       });
+
+      this.on('saved', (model, attributes, options) => {
+        this.saved(model, attributes, options);
+      });
+
+      this.on('updated', (model, attributes, options) => {
+        this.updated(model, attributes, options);
+      });
     },
 
 
