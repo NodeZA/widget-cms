@@ -6,6 +6,7 @@
 
 const unidecode  = require('unidecode');
 const sanitize   = require('validator').sanitize;
+const _          = require('lodash');
 
 
 module.exports = function (Bookshelf) {
@@ -16,32 +17,32 @@ module.exports = function (Bookshelf) {
 
     initialize: function () {
       this.on('saving', (model, attributes, options) => {
-        if (this.saving) {
-          this.saving(model, attributes, options);
+        if (this.saving && _.isFunction(this.saving)) {
+          return this.saving(model, attributes, options);
         }
       });
 
       this.on('creating', (model, attributes, options) => {
-        if (this.creating) {
-          this.creating(model, attributes, options);
+        if (this.creating && _.isFunction(this.creating)) {
+          return this.creating(model, attributes, options);
         }
       });
 
       this.on('destroying', (model, attributes, options) => {
-        if (this.destroying) {
-          this.destroying(model, attributes, options);
+        if (this.destroying && _.isFunction(this.destroying)) {
+          return this.destroying(model, attributes, options);
         }
       });
 
       this.on('saved', (model, attributes, options) => {
-        if (this.saved) {
-          this.saved(model, attributes, options);
+        if (this.saved && _.isFunction(this.saved)) {
+          return this.saved(model, attributes, options);
         }
       });
 
       this.on('updated', (model, attributes, options) => {
-        if (this.updated) {
-          this.updated(model, attributes, options);
+        if (this.updated && _.isFunction(this.updated)) {
+          return this.updated(model, attributes, options);
         }
       });
     },
