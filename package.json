@@ -46,7 +46,7 @@
     "mysql": "^2.11.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "pg": "^4.5.6",
+    "pg": "^5.2.0",
     "sqlite3": "^3.1.4",
     "type-is": "^1.6.13",
     "unidecode": "^0.1.8",
