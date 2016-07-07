@@ -133,6 +133,51 @@ const User = App.Model.extend({
 module.exports = App.addModel('User', User);
 ```
 
+Widget-CMS Models have 5 special methods that you can use to handle certain events when your model is initialized:
+
+```javascript
+const App = require('widget-cms');
+
+const User = App.Model.extend({
+
+  tableName: 'users',
+
+  // called before an insert or update query
+  // throw error to cancel operation
+  saving: function (model, attributes, options) {
+    // do validations and data transformations
+  },
+
+  // called before an insert query
+  // throw error to cancel operation
+  creating: function (model, attributes, options) {
+    // do validations and data transformations
+  },
+
+  // called before a delete query
+  // throw error to cancel operation
+  destroying: function (model, attributes, options) {
+    // do validations
+  },
+
+
+  // called after an insert or update query.
+  saved: function (model, attributes, options) {
+
+  },
+
+  // called after an update query
+  updated: function (model, attributes, options) {
+
+  }
+
+});
+
+module.exports = App.addModel('User', User);
+```
+
+
+
 ### Collections
 All collections should be located in the collections directory. Collections are created by extending the widget-cms Collection object.
 
