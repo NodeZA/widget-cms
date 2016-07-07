@@ -31,7 +31,7 @@
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
     "express-flash": "0.0.2",
-    "express-redis-cache": "^0.3.0",
+    "express-redis-cache": "^0.4.0",
     "express-session": "^1.13.0",
     "express-validator": "^2.20.5",
     "file-stream-rotator": "0.0.6",
