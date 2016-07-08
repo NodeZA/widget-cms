@@ -144,18 +144,21 @@ const User = App.Model.extend({
 
   // called before an insert or update query
   // throw error to cancel operation
+  // should return a promise for async operations
   saving: function (model, attributes, options) {
     // do validations and data transformations
   },
 
   // called before an insert query
   // throw error to cancel operation
+  // should return a promise for async operations
   creating: function (model, attributes, options) {
     // do validations and data transformations
   },
 
   // called before a delete query
   // throw error to cancel operation
+  // should return a promise for async operations
   destroying: function (model, attributes, options) {
     // do validations
   },

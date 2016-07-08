@@ -12,9 +12,9 @@ module.exports = function () {
     port: 3000, // default 3000
     secret: 'my_ninja_cat',
     db: {
-      client: 'sqlite3', // pg
+      client: 'sqlite3',
       connection: {
-        filename: ":memory:"
+          filename: './test.sqlite'
       },
       useNullAsDefault: true
     },

@@ -3,27 +3,63 @@
 const request = require('supertest');
 const should = require('should');
 const createServer = require('./server');
+const migrate = require('./migrate');
 
 describe('Create server', function () {
   "use strict";
 
   let App;
 
-  before(function () {
-    App = createServer();
+  before(function (done) {
+    migrate.start()
+    .then(function () {
+      App = createServer();
+      done()
+    })
+    .catch(function (error) {
+      done(error);
+    });
   });
 
   describe('#Model.extend()', function() {
-    it('should create a model', function() {
+    it('should create a User model and save a record', function(done) {
        let testModel = App.Model.extend({
-         tableName: 'users'
+
+         tableName: 'users',
+
+         // set slug
+         creating: function (model, attributes, options) {
+           return this.generateSlug(this.get('first_name'))
+           .then((slug) => {
+             console.log(slug)
+             this.set('slug', slug);
+           })
+           .catch(function (error) {
+             done(error);
+           });
+         }
        });
 
        App.addModel('Test', testModel);
 
-       let test = new testModel();
+       let test = new testModel({
+         first_name: 'Que',
+         last_name: 'Mlilo',
+         email: 'que@gmail.com'
+       });
 
        test.should.be.an.instanceOf(testModel).and.have.property('get');
+       test.getTableName().should.be.eql('users');
+
+       test.save()
+       .then(function (model) {
+         model.get('slug').should.be.eql('que');
+         done();
+       })
+       .catch(function (error) {
+         done(error);
+       });
+
     });
   });
 
@@ -133,6 +169,19 @@ describe('Create server', function () {
        let hasTest = App.hasController('Test', 'getMyName');
 
        hasTest.should.be.true();
+    });
+  });
+
+  after(function (done) {
+    migrate.reset()
+    .then(function () {
+      require('fs').unlinkSync('./test.sqlite');
+      console.log(' > Database reset complete');
+      done();
+    })
+    .catch(function (error) {
+      require('fs').unlinkSync('./test.sqlite');
+      done(error);
     });
   });
 });
