@@ -317,12 +317,15 @@ Below is a list of application objects that are extendable.
  - **Controller** - creates a controller
 
 
+### Change log
+
+[Checkout changelog.md starting from v0.3.6](https://github.com/NodeZA/widget-cms/blob/master/changelog.md)
+
 
 ### Testing
 ```
 npm test
 ```
-
 
 ### License
 
