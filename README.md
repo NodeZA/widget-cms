@@ -19,6 +19,7 @@ Table of Contents
 - [Collections](#collections)
 - [Controllers](#controllers)
 - [API](#api)
+- [Change log](#change-log)
 - [Testing](#testing)
 
 ### How it works
