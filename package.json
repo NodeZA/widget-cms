@@ -34,7 +34,7 @@
     "express-redis-cache": "^0.4.0",
     "express-session": "^1.13.0",
     "express-validator": "^2.20.5",
-    "file-stream-rotator": "0.0.6",
+    "file-stream-rotator": "0.0.7",
     "hbs": "^4.0.0",
     "knex": "^0.11.5",
     "lodash": "^4.13.1",
