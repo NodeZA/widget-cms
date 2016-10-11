@@ -2,7 +2,7 @@
 
 
 const _ = require('lodash');
-let utils = require('../lib/utils');
+const utils = require('../lib/utils');
 let controllerInstance = null;
 
 
