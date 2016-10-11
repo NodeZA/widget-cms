@@ -36,7 +36,7 @@
     "express-validator": "^2.20.5",
     "file-stream-rotator": "0.0.7",
     "hbs": "^4.0.0",
-    "knex": "^0.11.5",
+    "knex": "^0.12.3",
     "lodash": "^4.13.1",
     "lusca": "^1.4.0",
     "mariasql": "^0.2.6",
