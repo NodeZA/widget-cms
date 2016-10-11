@@ -1,6 +1,6 @@
 {
   "name": "widget-cms",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "A highly modular Node.js application framework",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   "homepage": "https://github.com/NodeZA/widget-cms#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
-    "bookshelf": "^0.10.0",
+    "bookshelf": "^0.10.2",
     "connect-redis": "^3.1.0",
     "cookie-parser": "^1.4.3",
     "errorhandler": "^1.4.3",
