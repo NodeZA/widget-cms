@@ -1,7 +1,7 @@
 # WigGet-CMS
 > A highly modular Node.js application framework
 
-![Build Status](https://travis-ci.org/NodeZA/widget-cms.svg?branch=master)](https://travis-ci.org/NodeZA/widget-cms)
+[![Build Status](https://travis-ci.org/NodeZA/widget-cms.svg?branch=master)](https://travis-ci.org/NodeZA/widget-cms)
 ![Depencies](https://david-dm.org/nodeza/widget-cms.svg)
 ![NPM](https://img.shields.io/npm/v/widget-cms.svg)
 
