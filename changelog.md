@@ -1,5 +1,8 @@
 # Change log
 
+### 1.0.0
+
+ - Package updates
 
 ### 0.3.7
 
