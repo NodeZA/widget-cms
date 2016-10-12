@@ -1,6 +1,6 @@
 {
   "name": "widget-cms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A highly modular Node.js application framework",
   "main": "index.js",
   "scripts": {
@@ -50,7 +50,7 @@
     "sqlite3": "^3.1.4",
     "type-is": "^1.6.13",
     "unidecode": "^0.1.8",
-    "widget-loader": "^1.0.0"
+    "widget-loader": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

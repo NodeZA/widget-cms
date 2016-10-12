@@ -1,5 +1,9 @@
 # Change log
 
+### 1.0.1
+
+ - Package updates - fixes bug
+
 ### 1.0.0
 
  - Package updates
