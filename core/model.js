@@ -5,7 +5,7 @@
  */
 
 const unidecode  = require('unidecode');
-const sanitize   = require('validator').sanitize;
+const sanitize   = require('express-validator').sanitize;
 const _          = require('lodash');
 
 
