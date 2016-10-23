@@ -1,5 +1,10 @@
 # Change log
 
+### 1.1.0
+
+ - Moved all logging to Winston
+ - updated tests
+
 ### 1.0.1
 
  - Package updates - fixes bug
