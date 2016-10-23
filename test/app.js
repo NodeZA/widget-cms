@@ -5,6 +5,7 @@ const should = require('should');
 const createServer = require('./server');
 const migrate = require('./migrate');
 
+
 describe('Create server', function () {
   "use strict";
 
@@ -14,6 +15,15 @@ describe('Create server', function () {
     migrate.start()
     .then(function () {
       App = createServer();
+
+      App.get('/', function (req, res) {
+        res.send('Home page');
+      });
+
+      App.post('/user', function (req, res) {
+        res.send(req.body);
+      });
+
       done()
     })
     .catch(function (error) {
@@ -31,7 +41,6 @@ describe('Create server', function () {
          creating: function (model, attributes, options) {
            return this.generateSlug(this.get('first_name'))
            .then((slug) => {
-             console.log(slug)
              this.set('slug', slug);
            })
            .catch(function (error) {
@@ -128,31 +137,42 @@ describe('Create server', function () {
     });
   });
 
-  describe('#get()', function(done) {
-    it('should be created a get route', function() {
-
-      App.get('/', function (req, res) {
-        res.send('Home page');
-      });
+  describe('#get()', function() {
+    it('should be created a get route', function(done) {
 
       request(App.server)
         .get('/')
-        .expect('Home page', done);
+        .expect('Content-Type', 'text/html; charset=utf-8')
+        .expect(200)
+        .end(function(err, res) {
+          if (err)  {
+            return done(err);
+          }
+
+          res.text.should.be.eql('Home page');
+
+          done();
+
+        });
     });
   });
 
-  describe('#post()', function(done) {
-    it('should be created a post route', function() {
-      let controller = App.getController('Test');
-
-      App.post('/user', function (req, res) {
-        res.send(req.body.name);
-      });
+  describe('#post()', function() {
+    it('should be created a post route', function(done) {
 
       request(App.server)
         .post('/user')
+        .expect(200)
         .send({ name: 'Que' })
-        .expect('Que', done);
+        .end(function(err, res) {
+          if (err)  {
+            return done(err);
+          }
+
+          res.body.name.should.be.eql('Que');
+
+          done();
+        });
     });
   });
 
@@ -160,7 +180,7 @@ describe('Create server', function () {
     it('should return server port', function() {
        let port = App.getConfig('port');
 
-       port.should.be.eql(3000);
+       port.should.be.eql(3007);
     });
   });
 

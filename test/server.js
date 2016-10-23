@@ -1,7 +1,7 @@
 "use strict";
 
 let appInstance = null;
-
+const path = require('path');
 
 module.exports = function () {
   if (appInstance) {
@@ -9,7 +9,7 @@ module.exports = function () {
   }
   let App = require('../');
   App.config({
-    port: 3000, // default 3000
+    port: 3007, // default 3000
     secret: 'my_ninja_cat',
     db: {
       client: 'sqlite3',
@@ -19,10 +19,11 @@ module.exports = function () {
       useNullAsDefault: true
     },
     rootDir: process.cwd(),
+    widgetsDir: path.join(__dirname, './widgets'),
     cache: false,
-    log: false,
+    saveLogs: false,
     middleware: {
-      enableForms: false,
+      enableForms: true,
       enableCSRF: false,
       inputValidation: false,
       enableSessions: false

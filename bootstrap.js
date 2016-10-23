@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const widgetLoader = require('widget-loader');
-const Bootstrap = {};
+let Bootstrap = {};
 
 
 Bootstrap.initBookshelf = function (config) {
