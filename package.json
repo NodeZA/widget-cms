@@ -33,7 +33,7 @@
     "express-flash": "0.0.2",
     "express-redis-cache": "^0.4.0",
     "express-session": "^1.13.0",
-    "express-validator": "^2.20.5",
+    "express-validator": "^2.21.0",
     "hbs": "^4.0.0",
     "knex": "^0.12.3",
     "lodash": "^4.13.1",
