@@ -36,7 +36,7 @@
     "express-validator": "^2.20.5",
     "hbs": "^4.0.0",
     "knex": "^0.12.3",
-    "lodash": "^4.13.1",
+    "lodash": "^4.16.5",
     "lusca": "^1.4.0",
     "mariasql": "^0.2.6",
     "mime-types": "^2.1.11",
