@@ -90,19 +90,13 @@ _.assign(App.prototype, {
     bootstrap.loadControllers(this._config);
 
     if (!this._config.hasOwnProperty('serverless') || !this._config.serverless) {
-      let widgetMiddleware = bootstrap.initWidgets(this);
-
-      // add widget middleware
-      if (widgetMiddleware) {
-        this.server.use(widgetMiddleware);
-      }
 
       bootstrap.loadRoutes(this._config);
 
       // file uploads
       let storage = multer.diskStorage({
         destination: (req, file, cb) => {
-          cb(null, this._config.uploadsDir || path.join(this._config.rootDir, 'public', 'img'));
+          cb(null, this._config.uploadsDir || path.join(this._config.rootDir, 'public', 'uploads'));
         },
         filename: function (req, file, cb) {
           let filename = `image_${Date.now()}.${mimetypes.extension(file.mimetype)}`;

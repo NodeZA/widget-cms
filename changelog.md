@@ -1,5 +1,10 @@
 # Change log
 
+### 1.2.0
+
+ - Removed widgets middleware from core
+
+ 
 ### 1.1.0
 
  - Moved all logging to Winston

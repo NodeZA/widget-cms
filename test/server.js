@@ -19,7 +19,6 @@ module.exports = function () {
       useNullAsDefault: true
     },
     rootDir: process.cwd(),
-    widgetsDir: path.join(__dirname, './widgets'),
     cache: false,
     saveLogs: false,
     middleware: {

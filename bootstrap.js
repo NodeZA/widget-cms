@@ -2,8 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const widgetLoader = require('widget-loader');
-let Bootstrap = {};
+const Bootstrap = {};
 
 
 Bootstrap.initBookshelf = function (config) {
@@ -17,21 +16,6 @@ Bootstrap.initServer = function (App) {
     console.log("✔ Initializing server...");
 
     return require('./server')(App);
-};
-
-
-Bootstrap.initWidgets = function (App) {
-    let widgetsDir = App._config.widgetsDir || path.join(App._config.rootDir, 'widgets');
-
-    if (!(fs.existsSync(widgetsDir) && fs.readdirSync(widgetsDir).length)) {
-      return null;
-    }
-
-    console.log("✔ Initializing widgets...");
-
-    return widgetLoader(App, {
-      widgetDirectory: widgetsDir
-    });
 };
 
 
