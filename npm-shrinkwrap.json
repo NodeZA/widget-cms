@@ -234,7 +234,9 @@
       "version": "0.0.2"
     },
     "express-redis-cache": {
-      "version": "0.4.2"
+      "version": "0.5.0",
+      "from": "express-redis-cache@latest",
+      "resolved": "https://registry.npmjs.org/express-redis-cache/-/express-redis-cache-0.5.0.tgz"
     },
     "express-session": {
       "version": "1.14.2",
@@ -245,10 +247,50 @@
       }
     },
     "express-validator": {
-      "version": "2.21.0",
+      "version": "3.1.2",
+      "from": "express-validator@3.1.2",
+      "resolved": "https://registry.npmjs.org/express-validator/-/express-validator-3.1.2.tgz",
       "dependencies": {
-        "lodash": {
-          "version": "4.16.6"
+        "@types/bluebird": {
+          "version": "3.0.37",
+          "from": "@types/bluebird@>=3.0.36 <3.1.0",
+          "resolved": "https://registry.npmjs.org/@types/bluebird/-/bluebird-3.0.37.tgz"
+        },
+        "@types/express": {
+          "version": "4.0.34",
+          "from": "@types/express@>=4.0.34 <4.1.0",
+          "resolved": "https://registry.npmjs.org/@types/express/-/express-4.0.34.tgz",
+          "dependencies": {
+            "@types/express-serve-static-core": {
+              "version": "4.0.40",
+              "from": "@types/express-serve-static-core@*",
+              "resolved": "https://registry.npmjs.org/@types/express-serve-static-core/-/express-serve-static-core-4.0.40.tgz",
+              "dependencies": {
+                "@types/node": {
+                  "version": "6.0.57",
+                  "from": "@types/node@*",
+                  "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.57.tgz"
+                }
+              }
+            },
+            "@types/serve-static": {
+              "version": "1.7.31",
+              "from": "@types/serve-static@*",
+              "resolved": "https://registry.npmjs.org/@types/serve-static/-/serve-static-1.7.31.tgz",
+              "dependencies": {
+                "@types/mime": {
+                  "version": "0.0.29",
+                  "from": "@types/mime@*",
+                  "resolved": "https://registry.npmjs.org/@types/mime/-/mime-0.0.29.tgz"
+                }
+              }
+            }
+          }
+        },
+        "validator": {
+          "version": "6.2.0",
+          "from": "validator@>=6.2.0 <6.3.0",
+          "resolved": "https://registry.npmjs.org/validator/-/validator-6.2.0.tgz"
         }
       }
     },
@@ -1585,9 +1627,6 @@
     },
     "v8flags": {
       "version": "2.0.11"
-    },
-    "validator": {
-      "version": "5.7.0"
     },
     "vary": {
       "version": "1.1.0"
