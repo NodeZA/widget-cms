@@ -136,7 +136,7 @@ module.exports = function (App) {
 
     // create a rotating write stream
     let accessLogStream = FileStreamRotator.getStream({
-      date_format: 'YYYYMMDD',
+      date_format: 'YYYY-MM-DD',
       filename: path.join(logDirectory, 'access-%DATE%.log'),
       frequency: 'daily',
       verbose: false
