@@ -14,8 +14,6 @@ module.exports = function (App) {
   const fs = require('fs');
   const hbsHelpers = require('./lib/helpers');
   const middleware = require('./lib/middleware');
-  const winston = require('winston');
-  const WinstonLogTransports = [];
 
 
   /**
@@ -127,63 +125,35 @@ module.exports = function (App) {
     });
   }
 
+
   if (config.saveLogs) {
 
+    let FileStreamRotator = require('file-stream-rotator')
     let logDirectory = path.join(config.rootDir, 'log');
 
     // ensure log directory exists
     fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
+    // create a rotating write stream
+    let accessLogStream = FileStreamRotator.getStream({
+      date_format: 'YYYYMMDD',
+      filename: path.join(logDirectory, 'access-%DATE%.log'),
+      frequency: 'daily',
+      verbose: false
+    });
 
-    WinstonLogTransports.push(new (require('winston-daily-rotate-file'))({
-      name: 'error-file',
-      filename: path.join(logDirectory, 'error.log'),
-      datePattern: 'yyyy-MM-dd-',
-      handleExceptions: true,
-      json: false,
-      prepend: true,
-      level: 'error'
-    }));
-
-    WinstonLogTransports.push(new (require('winston-daily-rotate-file'))({
-      name: 'info-file',
-      filename: path.join(logDirectory, 'info.log'),
-      datePattern: 'yyyy-MM-dd-',
-      json: false,
-      prepend: true,
-      level: 'info'
-    }));
+    // setup the logger
+    server.use(morgan('combined', {stream: accessLogStream}));
   }
-
+  else {
+    server.use(morgan('dev'));
+  }
 
   // error handling
   if (server.get('env') === 'development') {
     // only use in development
     server.use(errorHandler());
   }
-
-
-  WinstonLogTransports.push(new (winston.transports.Console)({
-    level: 'debug',
-    colorize: true
-  }));
-
-
-  let logger = new (winston.Logger)({
-    transports: WinstonLogTransports
-  });
-
-  server.use(morgan('combined', {
-    stream: {
-      write: function(message, encoding){
-        logger.info(message.slice(0, -1));
-      }
-    }
-  }));
-
-  global.console.log = logger.info;
-  global.console.error = logger.error;
-  global.console.warn = logger.warn;
 
   return server;
 };
