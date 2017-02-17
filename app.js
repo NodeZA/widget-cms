@@ -9,6 +9,7 @@ const bootstrap = require('./bootstrap');
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const multer  = require('multer');
+const Auth = require('./lib/auth');
 
 
 function App() {
@@ -18,6 +19,12 @@ function App() {
 util.inherits(App, EventEmitter);
 
 _.assign(App.prototype, {
+
+  /*
+   * We need passport for all the application authantication
+  **/
+  passport: require('passport'),
+
 
   /*
    * Public: stores application configuration
@@ -130,16 +137,6 @@ _.assign(App.prototype, {
   **/
   addCollection: function () {
     return this.Bookshelf.collection.apply(this.Bookshelf, _.toArray(arguments));
-  },
-
-
-  /*
-   * Public: passport authantication
-   *
-   * @returns - (Object) - returns passport object
-  **/
-  passport: function () {
-    return this.server.get('passport');
   },
 
 
@@ -412,6 +409,16 @@ _.assign(App.prototype, {
     this._helpers.push(fn);
 
     return this;
+  },
+
+
+  /*
+   * Public: routes authantication middleware
+   *
+   * @returns - (Object) - returns auth object
+  **/
+  auth: function () {
+    return Auth(this);
   }
 });
 

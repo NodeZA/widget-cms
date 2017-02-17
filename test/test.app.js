@@ -24,6 +24,10 @@ describe('Create server', function () {
         res.send(req.body);
       });
 
+      App.post('/login', function (req, res) {
+        res.send(req.body);
+      });
+
       done()
     })
     .catch(function (error) {
@@ -33,31 +37,16 @@ describe('Create server', function () {
 
   describe('#Model.extend()', function() {
     it('should create a User model and save a record', function(done) {
-       let testModel = App.Model.extend({
+       let User =  App.getModel('User');
 
-         tableName: 'users',
-
-         // set slug
-         creating: function (model, attributes, options) {
-           return this.generateSlug(this.get('first_name'))
-           .then((slug) => {
-             this.set('slug', slug);
-           })
-           .catch(function (error) {
-             done(error);
-           });
-         }
-       });
-
-       App.addModel('Test', testModel);
-
-       let test = new testModel({
+       let test = new User({
          first_name: 'Que',
          last_name: 'Mlilo',
-         email: 'que@gmail.com'
+         email: 'que@gmail.com',
+         password: 'password'
        });
 
-       test.should.be.an.instanceOf(testModel).and.have.property('get');
+       test.should.be.an.instanceOf(User).and.have.property('get');
        test.getTableName().should.be.eql('users');
 
        test.save()
@@ -72,36 +61,53 @@ describe('Create server', function () {
     });
   });
 
+
+  describe('#login()', function() {
+    it('should fail to login user', function(done) {
+      let User =  App.getModel('User');
+
+      User.login('que@gmail.com', 'admin')
+        .then(function(user) {
+          done(new Error('Should fail login'));
+        })
+        .catch(function(error) {
+          error.should.be.an.instanceOf(Error);
+          done();
+        });
+    });
+  });
+
+
   describe('#getModel()', function() {
     it('should return a created model', function() {
-       let testModel = App.getModel('Test');
-       let test = new testModel();
+       let User = App.getModel('User');
+       let member = new User();
 
-       test.should.have.property('get');
+       member.should.have.property('get');
     });
   });
 
   describe('#Collection.extend()', function() {
     it('should create a collection', function() {
-       let testModel = App.getModel('Test');
-       let testCollection = App.Collection.extend({
-         model: testModel
+       let User = App.getModel('User');
+       let Users = App.Collection.extend({
+         model: User
        });
-       let collection = new testCollection();
+       let collection = new Users();
 
-       App.addCollection('Tests', testCollection);
+       App.addCollection('Users', Users);
 
        // checkif pagination plugin is working
        collection.should.have.property('fetchPage');
 
-       collection.should.be.an.instanceOf(testCollection).and.have.property('add');
+       collection.should.be.an.instanceOf(Users).and.have.property('add');
     });
   });
 
   describe('#getCollection()', function() {
     it('should return a previously created collection', function() {
-       let testCollection = App.getCollection('Tests');
-       let collection = new testCollection();
+       let Users = App.getCollection('Users');
+       let collection = new Users();
 
        collection.should.have.property('add');
     });
@@ -183,6 +189,58 @@ describe('Create server', function () {
        port.should.be.eql(3007);
     });
   });
+
+
+  describe('#login()', function() {
+    it('should login user', function(done) {
+      let User =  App.getModel('User');
+
+      User.login('que@gmail.com', 'password')
+        .then(function(user) {
+          user.get('email').should.be.eql('que@gmail.com');
+          done();
+        })
+        .catch(function(error) {
+          done(error);
+        });
+    });
+  });
+
+
+  describe('#auth()', function() {
+    it('should be an object', function() {
+      let auth = App.auth();
+
+       auth.should.be.an.instanceOf(Object);
+    });
+  });
+
+  describe('#auth', function() {
+    before(function() {
+      let Auth = App.auth();
+
+      App.post('/register', Auth.isLoggedIn(), function (req, res) {
+        res.send(req.body);
+      });
+    });
+
+    it('should be redirect to login page', function(done) {
+      let auth = App.auth();
+
+      request(App.server)
+        .post('/register')
+        .expect(302)
+        .send({ name: 'Que', email: 'q@gmail.com' })
+        .end(function(err, res) {
+          if (err)  {
+            return done(err);
+          }
+
+          done();
+        });
+    });
+  });
+
 
   describe('#hasController()', function() {
     it('should return true', function() {

@@ -53,7 +53,6 @@ module.exports = function (App) {
     let flash = require('express-flash');
     let cookieParser = require('cookie-parser');
     let session = require('express-session');
-    let passport = require('passport');
     let RedisStore = require('connect-redis')(session);
 
 
@@ -70,12 +69,9 @@ module.exports = function (App) {
     }));
 
     // login management
-    server.use(passport.initialize());
-    server.use(passport.session());
+    server.use(App.passport.initialize());
+    server.use(App.passport.session());
     server.use(flash());
-
-    // want passport to be accessible throughout the application
-    server.set('passport', passport);
   }
 
   // application caching

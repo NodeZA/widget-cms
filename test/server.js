@@ -7,7 +7,9 @@ module.exports = function () {
   if (appInstance) {
     return appInstance;
   }
+
   let App = require('../');
+
   App.config({
     port: 3007, // default 3000
     secret: 'my_ninja_cat',
@@ -19,6 +21,7 @@ module.exports = function () {
       useNullAsDefault: true
     },
     rootDir: process.cwd(),
+    modelsDir: path.join(process.cwd(), 'models'),
     cache: false,
     saveLogs: false,
     middleware: {
