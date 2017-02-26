@@ -2,7 +2,7 @@
 "use strict";
 
 
-const App = require('../');
+const App = require('../../');
 const Promise  = require('bluebird');
 const bcrypt   = Promise.promisifyAll(require('bcrypt-nodejs'));
 

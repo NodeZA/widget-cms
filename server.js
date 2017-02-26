@@ -4,7 +4,6 @@ module.exports = function (App) {
 
   const config = App._config;
   const middlewareMethods = App._middleware;
-  const handlebarsHelpers = App._helpers;
   const express = require('express');
   const _ = require('lodash');
   const morgan = require('morgan');
@@ -12,8 +11,10 @@ module.exports = function (App) {
   const hbs = require('hbs');
   const path = require('path');
   const fs = require('fs');
-  const hbsHelpers = require('./lib/helpers');
   const middleware = require('./lib/middleware');
+  const applicationHelpers = App._helpers;
+  const frameworkHelpers = require('./lib/helpers');
+  const handlebarsHelpers = require('handlebars-helpers');
 
 
   /**
@@ -37,17 +38,22 @@ module.exports = function (App) {
   hbs.localsAsTemplateData(server);
   hbs.registerPartials(path.join(config.rootDir,'views', 'partials'));
 
-  // setup and register handlebars helpers
-  hbsHelpers.setup(hbs);
+  // generic handlebars helpers
+  handlebarsHelpers({
+    handlebars: hbs
+  });
 
-  if (handlebarsHelpers.length) {
-    handlebarsHelpers.forEach(function (helper) {
+  // framework specific helpers
+  frameworkHelpers.setup(hbs);
+
+  // application defined handlebars helpers
+  if (applicationHelpers.length) {
+    applicationHelpers.forEach(function (helper) {
       if (_.isFunction(helper)) {
         helper(hbs);
       }
     })
   }
-
 
   if (config.middleware.enableSessions) {
     let flash = require('express-flash');

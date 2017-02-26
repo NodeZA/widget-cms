@@ -21,7 +21,7 @@ module.exports = function () {
       useNullAsDefault: true
     },
     rootDir: process.cwd(),
-    modelsDir: path.join(process.cwd(), 'models'),
+    modelsDir: path.join(__dirname, 'models'),
     cache: false,
     saveLogs: false,
     middleware: {
