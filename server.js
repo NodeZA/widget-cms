@@ -81,12 +81,13 @@ module.exports = function (App) {
   }
 
   // application caching
+  /* disable cache
   if (config.cache) {
     let redisCache = require('express-redis-cache');
     let redisConfig = _.defaults(config.redis || {}, {expire: 60 * 60})
 
     server.set('cache', redisCache(redisConfig));
-  }
+  }*/
 
   // ensure user is available in templates
   server.use(function (req, res, next) {

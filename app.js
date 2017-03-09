@@ -245,7 +245,7 @@ _.assign(App.prototype, {
    * @param - (Function) callback - callback function
    *
    * @returns - (Void)
-  **/
+
   clearCache: function (name, callback) {
     let cache = this.server.get('cache');
 
@@ -254,7 +254,7 @@ _.assign(App.prototype, {
     }
 
     return this
-  },
+  },**/
 
 
   /*
@@ -297,6 +297,7 @@ _.assign(App.prototype, {
   get: function () {
     let args = _.toArray(arguments);
 
+    /* disable cache
     if (this._config.cache) {
 
       let cache = this.server.get('cache');
@@ -319,7 +320,7 @@ _.assign(App.prototype, {
 
         args.splice(1, 1, secondArg);
       }
-    }
+    }*/
 
     this.server.get.apply(this.server, args);
   },

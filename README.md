@@ -42,7 +42,7 @@ When a `Widget-CMS` application is initialised it runs the following steps:
 ### Software Requirements
 
  - SQL database (MySQL, Postgres, MariaDB, or SQLite)
- - Redis - session management and cache store
+ - Redis - session management
  - Node.js 14.x or greater
 
 
@@ -77,8 +77,6 @@ app.config({
   },
 
   redis: {}, // optional - assumes {host: localhost, port: 6379}
-
-  cache: true, // optional - defaults to false
 
   rootDir: process.cwd(), // required
 
@@ -300,11 +298,6 @@ The Widget-CMS API is intentionally kept  small, please send open an issue for a
 
  - **post** - creates application post routes. It's syntactic sugar on top express' post method
    - @returns - {Void}
-
- - **clearCache** - clears application cache
-   - @param - {String} name - cached route name
-   - @param - {Function} callback - callback function
-   - @returns - {Object} widget-cms application object
 
  - **passport** - passport authentication
    - @returns - {Object} - passport object
