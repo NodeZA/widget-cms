@@ -205,42 +205,7 @@ describe('Create server', function () {
         });
     });
   });
-
-
-  describe('#auth()', function() {
-    it('should be an object', function() {
-      let auth = App.auth();
-
-       auth.should.be.an.instanceOf(Object);
-    });
-  });
-
-  describe('#auth', function() {
-    before(function() {
-      let Auth = App.auth();
-
-      App.post('/register', Auth.isLoggedIn(), function (req, res) {
-        res.send(req.body);
-      });
-    });
-
-    it('should be redirect to login page', function(done) {
-      let auth = App.auth();
-
-      request(App.server)
-        .post('/register')
-        .expect(302)
-        .send({ name: 'Que', email: 'q@gmail.com' })
-        .end(function(err, res) {
-          if (err)  {
-            return done(err);
-          }
-
-          done();
-        });
-    });
-  });
-
+  
 
   describe('#hasController()', function() {
     it('should return true', function() {

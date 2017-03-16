@@ -9,7 +9,6 @@ const bootstrap = require('./bootstrap');
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const multer  = require('multer');
-const Auth = require('./lib/auth');
 
 
 function App() {
@@ -410,16 +409,6 @@ _.assign(App.prototype, {
     this._helpers.push(fn);
 
     return this;
-  },
-
-
-  /*
-   * Public: routes authantication middleware
-   *
-   * @returns - (Object) - returns auth object
-  **/
-  auth: function () {
-    return Auth(this);
   }
 });
 
