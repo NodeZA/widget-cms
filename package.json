@@ -36,7 +36,7 @@
     "express-validator": "^3.1.2",
     "handlebars-helpers": "^0.8.0",
     "hbs": "^4.0.0",
-    "knex": "^0.12.3",
+    "knex": "^0.13.0",
     "lodash": "^4.13.1",
     "lusca": "^1.4.0",
     "mariasql": "^0.2.6",
