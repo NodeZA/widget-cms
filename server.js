@@ -135,6 +135,12 @@ module.exports = function (App) {
     // only use in development
     server.use(errorHandler());
   }
+  else {
+    server.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.send(err.message);
+    });
+  }
 
   return server;
 };
