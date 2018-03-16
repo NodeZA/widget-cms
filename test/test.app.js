@@ -167,7 +167,9 @@ describe('Create server', function () {
     it('should be created a post route', function(done) {
 
       request(App.server)
-        .post('/user')
+        .post('/user', function (req, res) {
+           res.body._csrf = req.csrfToken();
+        })
         .expect(200)
         .send({ name: 'Que' })
         .end(function(err, res) {
@@ -205,7 +207,6 @@ describe('Create server', function () {
         });
     });
   });
-  
 
   describe('#hasController()', function() {
     it('should return true', function() {

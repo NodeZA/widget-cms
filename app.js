@@ -336,7 +336,7 @@ _.assign(App.prototype, {
     // this middleware ensures that forms with
     // enctype multipart are handled correctly
     let middleware = (req, res, next) => {
-      if (typeIs(req, ['multipart'])) {
+      if (typeIs(req, ['multipart/*'])) {
         this.uploader(req, req, function (err) {
           if (err) {
             return next(err);
