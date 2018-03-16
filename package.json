@@ -4,7 +4,7 @@
   "description": "A highly modular Node.js application framework",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test",
+    "test": "./node_modules/mocha/bin/mocha test --exit",
     "prepublish": "npm test"
   },
   "repository": {
