@@ -1,6 +1,6 @@
 {
   "name": "widget-cms",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A highly modular Node.js application framework",
   "main": "index.js",
   "scripts": {
@@ -35,18 +35,15 @@
     "express-session": "^1.13.0",
     "express-validator": "^5.3.0",
     "handlebars-helpers": "^0.10.0",
-    "hbs": "^4.0.0",
-    "knex": "^0.14.6",
-    "lodash": "^4.17.11",
+    "hbs": "^4.1.1",
+    "knex": "^0.95.2",
+    "lodash": "^4.17.21",
     "lusca": "^1.6.1",
-    "mariasql": "^0.2.6",
     "mime-types": "^2.1.21",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
-    "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "pg": "^7.5.0",
-    "sqlite3": "^4.0.3",
     "type-is": "^1.6.16",
     "unidecode": "^0.1.8"
   },
@@ -54,7 +51,7 @@
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.2",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
+    "mocha": "^8.3.2",
     "should": "^13.2.3",
     "supertest": "^3.3.0"
   }
